@@ -12,7 +12,7 @@ public class Junction extends SimulatedObject {
 	private Map<Junction, Road> outgoingRoads;
 	private List<List<Vehicle>> queueList;
 	//private Map<Road, List<Vehicle>> roadListMap;
-	private LightSwitchStrategy lsStrat;
+	private LightSwitchingStrategy lsStrat;
 	private DequeingStrategy dqStrat;
 	private int green;
 	private int red;
@@ -20,7 +20,7 @@ public class Junction extends SimulatedObject {
 	private int y;
 
 	
-	Junction(String id, LightSwitchStrategy lsStrategy, DequeingStrategy dqStrategy, int xCoor, int yCoor) {//comprobar valores
+	Junction(String id, LightSwitchingStrategy lsStrategy, DequeingStrategy dqStrategy, int xCoor, int yCoor) {//comprobar valores
 		super(id);
 		// TODO Auto-generated constructor stub
 	}
@@ -80,11 +80,11 @@ public class Junction extends SimulatedObject {
 		this.queueList = queueList;
 	}
 
-	public LightSwitchStrategy getLsStrat() {
+	public LightSwitchingStrategy getLsStrat() {
 		return lsStrat;
 	}
 
-	public void setLsStrat(LightSwitchStrategy lsStrat) {
+	public void setLsStrat(LightSwitchingStrategy lsStrat) {
 		this.lsStrat = lsStrat;
 	}
 
