@@ -31,7 +31,7 @@ public class Junction extends SimulatedObject {
 		super(id);
 		try {
 			validateArguments(lsStrategy, dqStrategy, xCoor, yCoor);
-			this.incomingRoads = new LinkedList<Road>();
+			this.incomingRoads = new ArrayList<Road>();
 			this.outgoingRoads = new HashMap<Junction, Road>();
 			this.queueList = new ArrayList<List<Vehicle>>();
 			this.roadListMap = new HashMap<Road, List<Vehicle>>();
@@ -60,7 +60,10 @@ public class Junction extends SimulatedObject {
 	}
 	
 	void addIncommingRoad(Road r) {
-		incomingRoads.add(r);
+		incomingRoads.add(r);							//add road to incomingRoads List
+		List<Vehicle> l = new LinkedList<Vehicle>();	//create a linkedList of the vehicles from Road r
+		queueList.add(l);								//add the linkedList to queueList
+		roadListMap.put(r, l);							//create a new entry in the roadMapList
 	}
 	
 	void addOutGoingRoad(Road r) {
