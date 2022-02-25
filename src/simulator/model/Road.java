@@ -63,7 +63,11 @@ public abstract class Road extends SimulatedObject {
 		reduceTotalContamination();
 		updateSpeedLimit();
 		for (Vehicle v : vehicles) {
-			calculateVehicleSpeed(v);
+			try {
+				v.setSpeed(calculateVehicleSpeed(v));
+			} catch (NegativeSpeedException e) {
+				e.printStackTrace();
+			}
 			v.advance(time);
 		}
 		//ordenar la lista

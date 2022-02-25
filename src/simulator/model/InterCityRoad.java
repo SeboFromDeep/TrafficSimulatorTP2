@@ -42,21 +42,9 @@ public class InterCityRoad extends Road {
 
 	@Override
 	int calculateVehicleSpeed(Vehicle v) {
-		if (getWeather() == Weather.STORM) {
-			try {
-				v.setSpeed((getMaxSpeed()*8)/10);
-			} catch (NegativeSpeedException e) {
-				e.printStackTrace();
-			}
-		}
-		else {
-			try {
-				v.setSpeed(getMaxSpeed());
-			} catch (NegativeSpeedException e) {
-				e.printStackTrace();
-			}
-		}
-		return 0;
+		if (getWeather() == Weather.STORM) return ((getMaxSpeed()*8)/10);
+		
+		return getMaxSpeed();
 	}
 	
 }
