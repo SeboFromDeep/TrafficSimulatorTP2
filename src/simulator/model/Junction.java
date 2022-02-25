@@ -1,28 +1,49 @@
 package simulator.model;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import org.json.JSONObject;
 
+import exception.InvalidArgumentsException;
+import exception.NegativeCoordException;
+import exception.NullStrategyException;
+
 public class Junction extends SimulatedObject {
 	
 	//Attributes
-	private List<Road> incomingRoads;
-	private Map<Junction, Road> outgoingRoads;
-	private List<List<Vehicle>> queueList;
-	//private Map<Road, List<Vehicle>> roadListMap;
+	private List<Road> incomingRoads;				//carreteras entrantes
+	private Map<Junction, Road> outgoingRoads;		//mapa<cruce, carretera> 
+	private List<List<Vehicle>> queueList;			//lista de coches de una carretera que esperan en el cruce
+	private Map<Road, List<Vehicle>> roadListMap; 	//mapa para buscar mejor en la lista anterior
 	private LightSwitchingStrategy lsStrat;
 	private DequeingStrategy dqStrat;
 	private int green;
-	private int red;
+	private int lastSwitchingTime;
 	private int x;
 	private int y;
 
 	
-	Junction(String id, LightSwitchingStrategy lsStrategy, DequeingStrategy dqStrategy, int xCoor, int yCoor) {//comprobar valores
+	Junction(String id, LightSwitchingStrategy lsStrategy, DequeingStrategy dqStrategy, int xCoor, int yCoor) throws InvalidArgumentsException {//comprobar valores
 		super(id);
-		// TODO Auto-generated constructor stub
+		try {
+			validateArguments(lsStrategy, dqStrategy, xCoor, yCoor);
+			this.incomingRoads = new LinkedList<Road>();
+			this.outgoingRoads = new HashMap<Junction, Road>();
+			this.queueList = new ArrayList<List<Vehicle>>();
+			this.roadListMap = new HashMap<Road, List<Vehicle>>();
+			this.lsStrat = lsStrategy;
+			this.dqStrat = dqStrategy;
+			this.green = -1;
+			this.lastSwitchingTime = 0;
+			this.x = xCoor;
+			this.y = yCoor;
+		} catch (NullStrategyException | NegativeCoordException e) {
+			throw new InvalidArgumentsException(e.getMessage());
+		}
 	}
 
 	//Methods
@@ -39,7 +60,7 @@ public class Junction extends SimulatedObject {
 	}
 	
 	void addIncommingRoad(Road r) {
-		
+		incomingRoads.add(r);
 	}
 	
 	void addOutGoingRoad(Road r) {
@@ -104,12 +125,12 @@ public class Junction extends SimulatedObject {
 		this.green = green;
 	}
 
-	public int getRed() {
-		return red;
+	public int getLastSwitchingTime() {
+		return lastSwitchingTime;
 	}
 
-	public void setRed(int red) {
-		this.red = red;
+	public void setLastSwitchingTime(int lastSwitchingTime) {
+		this.lastSwitchingTime = lastSwitchingTime;
 	}
 
 	public int getX() {
@@ -128,4 +149,8 @@ public class Junction extends SimulatedObject {
 		this.y = y;
 	}
 	
+	public void validateArguments(LightSwitchingStrategy lsStrategy, DequeingStrategy dqStrategy, int xCoor, int yCoor) throws NullStrategyException, NegativeCoordException {
+		if (lsStrategy == null || dqStrategy == null) throw new NullStrategyException("[ERROR]: can not have a null LightSwitchingStrategy or DequeingStrategy.");
+		if (xCoor < 0 || yCoor < 0)	throw new NegativeCoordException("[ERROR]: xCoor and yCoor have to be a positive integer");
+	}
 }
