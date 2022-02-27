@@ -36,7 +36,7 @@ public class MostCrowdedStrategy implements LightSwitchingStrategy{
 	public int mostCrowdedSinceCurrGreen(List<List<Vehicle>> qs, int currGreen) {
 		int mostCrowdedIdx = 0;
 		int mostCrowdedSize = 0;
-		int idx = currGreen + 1;
+		int idx = (currGreen + 1) % qs.size();
 		for (int i = 0; i < qs.size(); i++) {
 			if (qs.get(idx).size() > mostCrowdedSize) {
 				mostCrowdedIdx = idx;
@@ -45,6 +45,6 @@ public class MostCrowdedStrategy implements LightSwitchingStrategy{
 			idx = (idx + 1) % qs.size();
 		}
 		
-		return 0;
+		return mostCrowdedIdx;
 	}
 }
