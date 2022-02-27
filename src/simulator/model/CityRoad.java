@@ -18,7 +18,7 @@ public class CityRoad extends Road {
 			x = 10;
 			break;
 		case STORM:
-			x = 20;
+			x = 10;
 			break;
 		default:
 			x = 2;
