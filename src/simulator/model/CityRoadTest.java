@@ -102,7 +102,7 @@ class CityRoadTest {
 	}
 
 	@Test
-	void test_report() throws InvalidArgumentsException { //DA FAILURE PERO SI SE HACE PRINT SALEN IGUALES
+	void test_report() throws InvalidArgumentsException { //DA FAILURE PERO SI SE HACE PRINT SALEN IGUALES 
 
 		// two junctions
 		Junction j1 = new Junction("j1", new RoundRobinStrategy(10), new MoveFirstStrategy(), 0, 0);
