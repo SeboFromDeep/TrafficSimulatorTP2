@@ -6,9 +6,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import exception.InvalidArgumentsException;
+import exception.JunctionException;
 import exception.NegativeCoordException;
 import exception.NullStrategyException;
 
@@ -49,33 +51,65 @@ public class Junction extends SimulatedObject {
 	//Methods
 	@Override
 	void advance(int time) {
-		// TODO Auto-generated method stub
-
+		List<Vehicle> dequedVehicles = dqStrat.dequeue(queueList.get(green));
+		for (Vehicle v : dequedVehicles) {
+			v.moveToNextRoad();					//move v to next road
+			queueList.get(green).remove(v);		//remove v from queueList
+		}
+		
+		int lastGreen = green;
+		this.green = lsStrat.chooseNextGreen(incomingRoads, queueList, green, lastSwitchingTime, time);//curTime es time?
+		if (green != lastGreen) lastSwitchingTime = time;
 	}
 
 	@Override
 	public JSONObject report() {
-		// TODO Auto-generated method stub
-		return null;
+		JSONObject junction = new JSONObject();
+		
+		junction.put("id", getId());
+		
+		String greenId = "none";
+		if (green != -1) greenId = incomingRoads.get(green).getId();	//search for the road in the incomingRoads list
+		junction.put("green", greenId);
+		
+		JSONArray queues = new JSONArray();
+		for (int i = 0; i < incomingRoads.size(); i++) {
+			JSONObject roadQueue = new JSONObject();
+			roadQueue.put("road", incomingRoads.get(i).getId());
+			
+			JSONArray vehicles = new JSONArray();
+			for (Vehicle v : queueList.get(i)) {
+				vehicles.put(v.getId());
+			}
+			roadQueue.put("vehicles", vehicles);
+			
+			queues.put(roadQueue);
+		}
+		junction.put("queues", queues);
+		
+		return junction;
 	}
 	
-	void addIncommingRoad(Road r) {
+	void addIncommingRoad(Road r) throws JunctionException{
+		if (r.getDestJunc() != this) throw new JunctionException(String.format("[ERROR]: the road does not have %s as Destination Junction.", getId()));
 		incomingRoads.add(r);							//add road to incomingRoads List
 		List<Vehicle> l = new LinkedList<Vehicle>();	//create a linkedList of the vehicles from Road r
 		queueList.add(l);								//add the linkedList to queueList
 		roadListMap.put(r, l);							//create a new entry in the roadMapList
 	}
 	
-	void addOutGoingRoad(Road r) {
-		
+	void addOutGoingRoad(Road r) throws JunctionException{
+		if (r.getSrcJunc() != this) throw new JunctionException(String.format("[ERROR]: the road does not have %s as Source Junction.", getId()));
+		if (outgoingRoads.containsKey(r.getDestJunc())) throw new JunctionException(String.format("[ERROR]: there is already a road that goes from %s to %s.", getId(), r.getDestJunc().getId()));
+		outgoingRoads.put(r.getDestJunc(), r);
 	}
 
 	void enter(Vehicle v) {
-		
+		roadListMap.get(v.getRoad()).add(v);
 	}
 	
 	Road roadTo(Junction j) {
-		return null;
+		return outgoingRoads.get(j);
 	}
 	
 	

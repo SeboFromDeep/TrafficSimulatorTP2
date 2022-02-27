@@ -2,6 +2,7 @@ package simulator.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -9,6 +10,7 @@ import org.json.JSONObject;
 
 import exception.InvalidArgumentsException;
 import exception.InvalidMaxSpeedException;
+import exception.JunctionException;
 import exception.NegativeContLimitException;
 import exception.NegativeContaminationException;
 import exception.NegativeLengthException;
@@ -33,6 +35,10 @@ public abstract class Road extends SimulatedObject {
 		super(id);
 		try {
 			validateArguments(srcJunc, destJunc, maxSpeed, contLimit, length, weather);
+		} catch (InvalidMaxSpeedException | NegativeContLimitException | NegativeLengthException | NullJunctionException
+				| NullWeatherException e) {
+			throw new InvalidArgumentsException(e.getMessage());
+		}
 			this.srcJunc = srcJunc;
 			this.destJunc = destJunc;
 			this.maxSpeed = maxSpeed;
@@ -42,13 +48,13 @@ public abstract class Road extends SimulatedObject {
 			this.totalCont = 0;
 			this.vehicles = new ArrayList<Vehicle>();
 			
-			this.srcJunc.addOutGoingRoad(this);
-			this.destJunc.addIncommingRoad(this);
+			try {
+				this.srcJunc.addOutGoingRoad(this);
+				this.destJunc.addIncommingRoad(this);
+			} catch (JunctionException e) {
+				e.printStackTrace();
+			}
 			
-		} catch (InvalidMaxSpeedException | NegativeContLimitException | NegativeLengthException | NullJunctionException
-				| NullWeatherException e) {
-			throw new InvalidArgumentsException(e.getMessage());
-		}
 	}
 
 
@@ -70,7 +76,7 @@ public abstract class Road extends SimulatedObject {
 			}
 			v.advance(time);
 		}
-		//ordenar la lista
+		vehicles.sort(Comparator.comparing(Vehicle::getLocation).reversed());
 	}
 
 	@Override

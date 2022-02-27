@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import exception.InvalidArgumentsException;
 import exception.InvalidContClassException;
+import exception.InvalidIdException;
 import exception.InvalidMaxSpeedException;
 import exception.ItineraryTooShortException;
 import exception.NegativeContaminationException;
@@ -32,7 +33,7 @@ public class Vehicle extends SimulatedObject {
 	Vehicle(String id, int maxSpeed, int contClass, List<Junction> itinerary) throws InvalidArgumentsException{//hacer comprobaciones
 		super(id);
 		try {
-			validateArguments(maxSpeed, contClass, itinerary);
+			validateArguments(id, maxSpeed, contClass, itinerary);
 			this.maxSpeed = maxSpeed;
 			this.contClass = contClass;
 			this.itinerary = Collections.unmodifiableList(new ArrayList<>(itinerary));
@@ -40,7 +41,7 @@ public class Vehicle extends SimulatedObject {
 			this.contamination = 0;
 			this.status = VehicleStatus.PENDING;
 			
-		} catch (InvalidMaxSpeedException | InvalidContClassException | ItineraryTooShortException e) {
+		} catch (InvalidIdException | InvalidMaxSpeedException | InvalidContClassException | ItineraryTooShortException e) {
 			throw new InvalidArgumentsException(e.getMessage());
 		}
 		
@@ -52,7 +53,7 @@ public class Vehicle extends SimulatedObject {
 		// TODO Auto-generated method stub
 		int old_location = location;	// var used to calculate the advanced spaced
 		
-		this.location = Math.min((location + (speed * time)), road.getLength());	// recalculate location
+		this.location = Math.min((location + speed), road.getLength());	// recalculate location
 		
 		int advanced_spaced = location - old_location;
 		this.distance += advanced_spaced;
@@ -93,7 +94,7 @@ public class Vehicle extends SimulatedObject {
 		// Case 1: vehicle enters first road of itinerary
 		if(getStatus() == VehicleStatus.PENDING) {
 			try {
-				this.road = itinerary.get(0).roadTo(itinerary.get(0));
+				this.road = itinerary.get(0).roadTo(itinerary.get(1));
 				road.enter(this);
 				location = 0;
 				setStatus(VehicleStatus.TRAVELING);
@@ -218,7 +219,8 @@ public class Vehicle extends SimulatedObject {
 	}
 
 	
-	public void validateArguments(int maxSpeed, int contClass, List<Junction> itinerary) throws InvalidMaxSpeedException, InvalidContClassException, ItineraryTooShortException{
+	public void validateArguments(String id, int maxSpeed, int contClass, List<Junction> itinerary) throws InvalidIdException, InvalidMaxSpeedException, InvalidContClassException, ItineraryTooShortException{
+		if (id == null || id == "") throw new InvalidIdException("[ERROR]: id can not be null or an empty string.");
 		if (maxSpeed < 1 ) throw new InvalidMaxSpeedException("[ERROR]: maxSpeed has to be a positive integer.");
 		if (contClass < 0 || contClass > 10) throw new InvalidContClassException("[ERROR]: contClass has to be an integer between 0 and 10 (both included).");
 		if (itinerary.size() < 2) throw new ItineraryTooShortException("[ERROR]: itinerary size has to be at least 2.");

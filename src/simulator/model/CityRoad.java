@@ -24,7 +24,7 @@ public class CityRoad extends Road {
 			x = 2;
 			break;
 		}
-		setTotalCont(Math.min(getTotalCont()-x, 0));
+		setTotalCont(Math.max(getTotalCont()-x, 0));
 	}
 
 	@Override
@@ -34,7 +34,7 @@ public class CityRoad extends Road {
 
 	@Override
 	int calculateVehicleSpeed(Vehicle v) {
-		return  (11-v.getContClass()*getMaxSpeed()/11);
+		return  ((11-v.getContClass())*getMaxSpeed()/11);
 	}
 
 }
