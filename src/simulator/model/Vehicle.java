@@ -58,9 +58,10 @@ public class Vehicle extends SimulatedObject {
 		int advanced_spaced = location - old_location;
 		this.distance += advanced_spaced;
 		
-		this.contamination += contClass * advanced_spaced;
+		int increasedCont = contClass * advanced_spaced;
+		this.contamination += increasedCont;
 		try {
-			road.addContamination(this.contamination);
+			road.addContamination(increasedCont);
 		} catch (NegativeContaminationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -226,3 +227,4 @@ public class Vehicle extends SimulatedObject {
 		if (itinerary.size() < 2) throw new ItineraryTooShortException("[ERROR]: itinerary size has to be at least 2.");
 	}
 }
+
