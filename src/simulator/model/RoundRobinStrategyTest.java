@@ -26,7 +26,7 @@ class RoundRobinStrategyTest {
 		Road r2 = new CityRoad("r1", j3, j2, 100, 500, 1000, Weather.SUNNY);
 
 
-		// vehicles entered from r1
+		// vehicles entered from r1 
 		Vehicle vs1[] = new Vehicle[5];
 		for(int i=0; i<vs1.length; i++)
 			vs1[i] = new Vehicle("v"+i, 50, 1, Arrays.asList(j1, j2));
