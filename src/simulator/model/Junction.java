@@ -10,6 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import exception.InvalidArgumentsException;
+import exception.InvalidIdException;
 import exception.JunctionException;
 import exception.NegativeCoordException;
 import exception.NullStrategyException;
@@ -32,7 +33,7 @@ public class Junction extends SimulatedObject {
 	Junction(String id, LightSwitchingStrategy lsStrategy, DequeingStrategy dqStrategy, int xCoor, int yCoor) throws InvalidArgumentsException {//comprobar valores
 		super(id);
 		try {
-			validateArguments(lsStrategy, dqStrategy, xCoor, yCoor);
+			validateArguments(id, lsStrategy, dqStrategy, xCoor, yCoor);
 			this.incomingRoads = new ArrayList<Road>();
 			this.outgoingRoads = new HashMap<Junction, Road>();
 			this.queueList = new ArrayList<List<Vehicle>>();
@@ -43,7 +44,7 @@ public class Junction extends SimulatedObject {
 			this.lastSwitchingTime = 0;
 			this.x = xCoor;
 			this.y = yCoor;
-		} catch (NullStrategyException | NegativeCoordException e) {
+		} catch (InvalidIdException | NullStrategyException | NegativeCoordException e) {
 			throw new InvalidArgumentsException(e.getMessage());
 		}
 	}
@@ -186,7 +187,8 @@ public class Junction extends SimulatedObject {
 		this.y = y;
 	}
 	
-	public void validateArguments(LightSwitchingStrategy lsStrategy, DequeingStrategy dqStrategy, int xCoor, int yCoor) throws NullStrategyException, NegativeCoordException {
+	public void validateArguments(String id, LightSwitchingStrategy lsStrategy, DequeingStrategy dqStrategy, int xCoor, int yCoor) throws NullStrategyException, NegativeCoordException, InvalidIdException {
+		if (id == null || id == "") throw new InvalidIdException("[ERROR]: id can not be null or an empty string.");
 		if (lsStrategy == null || dqStrategy == null) throw new NullStrategyException("[ERROR]: can not have a null LightSwitchingStrategy or DequeingStrategy.");
 		if (xCoor < 0 || yCoor < 0)	throw new NegativeCoordException("[ERROR]: xCoor and yCoor have to be a positive integer");
 	}
