@@ -1,7 +1,6 @@
 package simulator.model;
 
 import exception.InvalidArgumentsException;
-import exception.NegativeSpeedException;
 
 public class CityRoad extends Road {
 

@@ -9,6 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import exception.InvalidArgumentsException;
+import exception.InvalidIdException;
 import exception.InvalidMaxSpeedException;
 import exception.JunctionException;
 import exception.NegativeContLimitException;
@@ -34,8 +35,8 @@ public abstract class Road extends SimulatedObject {
 	Road(String id, Junction srcJunc, Junction destJunc, int maxSpeed, int contLimit, int length, Weather weather) throws InvalidArgumentsException{
 		super(id);
 		try {
-			validateArguments(srcJunc, destJunc, maxSpeed, contLimit, length, weather);
-		} catch (InvalidMaxSpeedException | NegativeContLimitException | NegativeLengthException | NullJunctionException
+			validateArguments(id, srcJunc, destJunc, maxSpeed, contLimit, length, weather);
+		} catch (InvalidIdException | InvalidMaxSpeedException | NegativeContLimitException | NegativeLengthException | NullJunctionException
 				| NullWeatherException e) {
 			throw new InvalidArgumentsException(e.getMessage());
 		}
@@ -88,7 +89,9 @@ public abstract class Road extends SimulatedObject {
 		road.put("co2", getTotalCont());
 		
 		JSONArray vehicles_array = new JSONArray();
-		vehicles_array.put(getVehicles());
+		for (Vehicle v : vehicles) {
+			vehicles_array.put(v.getId());
+		}
 		road.put("vehicles", vehicles_array);
 		return road;
 	}
@@ -104,6 +107,7 @@ public abstract class Road extends SimulatedObject {
 	
 	void addContamination(int c) throws NegativeContaminationException{
 		if (c < 0) throw new NegativeContaminationException("[ERROR]: contamination has to be positive");
+		totalCont += c;
 	}
 	
 	public void setWeather(Weather weather) throws NullWeatherException{
@@ -185,10 +189,11 @@ public abstract class Road extends SimulatedObject {
 		this.vehicles = vehicles;
 	}
 
-	public void validateArguments(Junction srcJunc, Junction destJunc, int maxSpeed, int contLimit, int length, Weather weather) throws InvalidMaxSpeedException, NegativeContLimitException, NegativeLengthException, NullJunctionException, NullWeatherException {
+	public void validateArguments(String id, Junction srcJunc, Junction destJunc, int maxSpeed, int contLimit, int length, Weather weather) throws InvalidMaxSpeedException, NegativeContLimitException, NegativeLengthException, NullJunctionException, NullWeatherException, InvalidIdException {
+		if (id == null || id == "") throw new InvalidIdException("[ERROR]: id can not be null or an empty string.");
 		if (maxSpeed < 1) throw new InvalidMaxSpeedException("[ERROR]: maxSpeed has to be a positive integer.");
-		if (contLimit < 0) throw new NegativeContLimitException("[ERROR]: contLimit can not be negative.");
-		if (length < 0) throw new NegativeLengthException("[ERROR]: length has to be positive.");
+		if (contLimit < 1) throw new NegativeContLimitException("[ERROR]: contLimit can not be negative.");
+		if (length < 1) throw new NegativeLengthException("[ERROR]: length has to be positive.");
 		if (srcJunc == null || destJunc == null) throw new NullJunctionException("[ERROR]: neither source Junction or destination Junction can be null.");
 		if (weather == null) throw new NullWeatherException("[ERROR]: weather can not be null.");
 	}
