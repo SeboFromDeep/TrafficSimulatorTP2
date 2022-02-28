@@ -10,6 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import exception.InvalidItineraryException;
+import exception.JunctionAlreadyPresentException;
 import exception.JunctionNotPresentException;
 import exception.RoadAlreadyPresentException;
 import exception.VehicleAlreadyPresentException;
@@ -33,14 +34,17 @@ public class RoadMap {
 		this.junctionMap = new HashMap<String, Junction>();
 		this.roadMap = new HashMap<String, Road>();
 		this.junctionMap = new HashMap<String, Junction>();
+		this.vehicleMap = new HashMap<String, Vehicle>();
 	}
 	
 	//Methods
-	void addJunction(Junction j) {
-		if (!junctionMap.containsKey(j.getId())) {							//if the junction isn't in the RoadMap 
-			junctions.add(j);												//add it to the end of the list
-			junctionMap.put(j.getId(), junctions.get(junctions.size()-1));	//add a entry to the junctionsMap and assign it to the new junction
-		}
+	void addJunction(Junction j) throws JunctionAlreadyPresentException {
+		if (junctionMap.containsKey(j.getId())) throw new JunctionAlreadyPresentException(String.format("[ERROR]: the Junction %s already exist in the RoadMap.", j.getId()));
+		
+		//if the junction isn't in the RoadMap 
+		junctions.add(j);												//add it to the end of the list
+		junctionMap.put(j.getId(), junctions.get(junctions.size()-1));	//add a entry to the junctionsMap and assign it to the new junction
+		
 	}
 	
 	void addRoad(Road r) throws RoadAlreadyPresentException, JunctionNotPresentException {
@@ -53,7 +57,7 @@ public class RoadMap {
 	
 	void addVehicle(Vehicle v) throws InvalidItineraryException, VehicleAlreadyPresentException {
 		if (roadMap.containsKey(v.getId())) throw new VehicleAlreadyPresentException(String.format("[ERROR]: the Vehicle %s already exist in the RoadMap.", v.getId()));  
-		if (invalidItinerary(v)) throw new InvalidItineraryException(String.format("[ERROR]: the itinerary of %s can not be completed.", v.getId()));
+		if (!invalidItinerary(v)) throw new InvalidItineraryException(String.format("[ERROR]: the itinerary of %s can not be completed.", v.getId()));
 		vehicles.add(v);
 		vehicleMap.put(v.getId(), vehicles.get(vehicles.size()-1));
 	}
@@ -89,9 +93,9 @@ public class RoadMap {
 		jo.put("roads", RoadsArray);
 		
 		JSONArray vehiclesArray = new JSONArray();
-		for (Junction v : junctions) {
-			JSONObject joJunction = v.report();
-			vehiclesArray.put(joJunction);
+		for (Vehicle v : vehicles) {
+			JSONObject joVehicle = v.report();
+			vehiclesArray.put(joVehicle);
 		}
 		jo.put("vehicles", vehiclesArray);
 		
@@ -113,10 +117,10 @@ public class RoadMap {
 			Junction jSrc = v.getItinerary().get(i);
 			Junction jDest = v.getItinerary().get(i+1);
 			if (!junctionMap.containsKey(jSrc.getId())) return false; 			//the junction isn't present in the RoadMap
-			if (roadMap.containsKey(jSrc.roadTo(jDest).getId())) return false;	//the road between jSrc and JDest isn't in the RoadMap
+			if (!roadMap.containsKey(jSrc.roadTo(jDest).getId())) return false;	//the road between jSrc and JDest isn't in the RoadMap
 		}
 			//the loop doesn't check the last junction (if there is at least 3 junctions)
-			if (junctionMap.containsKey(v.getItinerary().get(v.getItinerary().size()-1).getId())) return false;
+			if (!junctionMap.containsKey(v.getItinerary().get(v.getItinerary().size()-1).getId())) return false;
 		return true;
 	}
 	

@@ -53,7 +53,7 @@ public abstract class Road extends SimulatedObject {
 				this.srcJunc.addOutGoingRoad(this);
 				this.destJunc.addIncommingRoad(this);
 			} catch (JunctionException e) {
-				e.printStackTrace();
+				System.out.println(e.getMessage());
 			}
 			
 	}
