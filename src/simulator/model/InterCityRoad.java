@@ -37,12 +37,13 @@ public class InterCityRoad extends Road {
 
 	@Override
 	void updateSpeedLimit() {
-		if (getTotalCont() > getContLimit()) setMaxSpeed(getMaxSpeed()/2);
+		if (getTotalCont() > getContLimit()) setSpeedLimit(getMaxSpeed()/2);
+		else setSpeedLimit(getMaxSpeed());
 	}
 
 	@Override
 	int calculateVehicleSpeed(Vehicle v) {
-		if (getWeather() == Weather.STORM) return ((getMaxSpeed()*8)/10);
+		if (getWeather() == Weather.STORM) return ((getSpeedLimit()*8)/10);
 		
 		return getMaxSpeed();
 	}

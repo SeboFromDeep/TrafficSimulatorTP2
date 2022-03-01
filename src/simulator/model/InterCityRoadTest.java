@@ -39,7 +39,7 @@ class InterCityRoadTest {
 		assertEquals(100, r1.getMaxSpeed());
 
 		// current speed limit
-		assertEquals(100, r1.getMaxSpeed());
+		assertEquals(100, r1.getSpeedLimit());
 
 		// contamination limit
 		assertEquals(500, r1.getContLimit());
@@ -76,7 +76,7 @@ class InterCityRoadTest {
 		r1.advance(0);
 
 		// speed limit did not change
-		assertEquals(100, r1.getMaxSpeed());
+		assertEquals(100, r1.getSpeedLimit());
 
 		// the road should be r1
 		assertEquals(v2, r1.getVehicles().get(0));
@@ -95,7 +95,7 @@ class InterCityRoadTest {
 		r1.advance(1);
 
 		// speed limit changed
-		assertEquals(50, r1.getMaxSpeed());
+		assertEquals(50, r1.getSpeedLimit());
 
 		// check speed changed correctly
 		assertEquals(40, v1.getSpeed());

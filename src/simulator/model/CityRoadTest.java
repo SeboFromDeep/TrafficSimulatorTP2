@@ -39,7 +39,7 @@ class CityRoadTest {
 		assertEquals(100, r1.getMaxSpeed());
 
 		// current speed limit
-		assertEquals(100, r1.getMaxSpeed());
+		assertEquals(100, r1.getSpeedLimit());
 
 		// contamination limit
 		assertEquals(500, r1.getContLimit());

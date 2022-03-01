@@ -26,6 +26,7 @@ public abstract class Road extends SimulatedObject {
 	private Junction srcJunc;
 	private Junction destJunc;
 	private int maxSpeed;
+	private int speedLimit;
 	private int contLimit;
 	private int totalCont;
 	private int length;
@@ -43,6 +44,7 @@ public abstract class Road extends SimulatedObject {
 			this.srcJunc = srcJunc;
 			this.destJunc = destJunc;
 			this.maxSpeed = maxSpeed;
+			this.speedLimit = maxSpeed;
 			this.contLimit = contLimit;
 			this.length = length;
 			this.weather = weather;
@@ -84,7 +86,7 @@ public abstract class Road extends SimulatedObject {
 	public JSONObject report() {
 		JSONObject road = new JSONObject();
 		road.put("id", getId());
-		road.put("speedlimit", getMaxSpeed());
+		road.put("speedlimit", getSpeedLimit());
 		road.put("weather", getWeather().toString());
 		road.put("co2", getTotalCont());
 		
@@ -145,6 +147,16 @@ public abstract class Road extends SimulatedObject {
 	}
 
 	
+	public int getSpeedLimit() {
+		return speedLimit;
+	}
+
+
+	public void setSpeedLimit(int speedLimit) {
+		this.speedLimit = speedLimit;
+	}
+
+
 	public int getContLimit() {
 		return contLimit;
 	}
