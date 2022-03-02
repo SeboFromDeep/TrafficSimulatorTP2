@@ -12,7 +12,7 @@ import exception.JunctionAlreadyPresentException;
 class NewCityRoadEventTest {
 
 	@Test
-	void test_1() throws InvalidArgumentsException, JunctionAlreadyPresentException {
+	void test_1() throws Exception {
 		RoadMap map = new RoadMap();
 		//  junctions
 		Junction j1 = new Junction("j1", new RoundRobinStrategy(10), new MoveFirstStrategy(), 0, 0);

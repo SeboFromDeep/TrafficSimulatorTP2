@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 class NewJunctionEventTest {
 
 	@Test
-	void test_1() {
+	void test_1() throws Exception {
 		RoadMap map = new RoadMap();
 
 		// add a new junction via an event

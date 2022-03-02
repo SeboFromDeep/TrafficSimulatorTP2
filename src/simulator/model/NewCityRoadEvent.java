@@ -4,35 +4,24 @@ import exception.InvalidArgumentsException;
 import exception.JunctionNotPresentException;
 import exception.RoadAlreadyPresentException;
 
-public class NewCityRoadEvent extends Event {
+public class NewCityRoadEvent extends NewRoadEvent{
+	
+	
 
-	private String id;
-	private String srcJunc;
-	private String destJunc;
-	private int length;
-	private int co2Limit;
-	private int maxSpeed;
-	private Weather weather;
-
-	public NewCityRoadEvent(int time, String id, String srcJun, String destJunc, int length, int co2Limit, int maxSpeed, Weather weather) {
-		super(time);
-		this.id = id;
-		this.srcJunc = srcJun;
-		this.destJunc = destJunc;
-		this.length = length;
-		this.co2Limit = co2Limit;
-		this.maxSpeed = maxSpeed;
-		this.weather = weather;
-	}
+	public NewCityRoadEvent(int time, String id, String srcJun, String
+			destJunc, int length, int co2Limit, int maxSpeed, Weather weather)
+			{
+				super(time, id, srcJun, destJunc, length, co2Limit, maxSpeed, weather);
+			}
 
 	@Override
-	void execute(RoadMap map) {
-		try {
-			map.addRoad(new CityRoad(id, map.getJunction(srcJunc), map.getJunction(destJunc), maxSpeed, co2Limit, length, weather));
-		} catch (RoadAlreadyPresentException | JunctionNotPresentException | InvalidArgumentsException e) {
-			// TODO Auto-generated catch block
-			e.getMessage();
-		}
+	void execute(RoadMap map) throws Exception {
+		// TODO Auto-generated method stub
+		Junction aux = map.getJunction(src);
+		Junction aux2 = map.getJunction(dest);
+		CityRoad r = new CityRoad(id, aux, aux2, maxSpeed, contLimit, length, weather);
+		map.addRoad(r);
 	}
 
 }
+
