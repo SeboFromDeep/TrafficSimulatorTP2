@@ -17,7 +17,7 @@ public class TrafficSimulator {
 
 	public TrafficSimulator() {
 		this.roadMap = new RoadMap();
-		this.events = new SortedArrayList<Event>(Comparator.comparing(Event::getTime)); // no se si está bien del todo
+		this.events = new SortedArrayList<Event>(Comparator.comparing(Event::getTime));
 		this.time = 0;
 	}
 	
