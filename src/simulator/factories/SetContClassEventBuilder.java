@@ -26,7 +26,7 @@ public class SetContClassEventBuilder extends Builder<Event>{
 		for (int i = 0; i < vehiclesJson.length(); i++) {
 			JSONObject v = vehiclesJson.getJSONObject(i);
 			String id = v.getString("vehicle");
-			int c = data.getInt("class");
+			int c = v.getInt("class");
 			vehiclesList.add(new Pair<String, Integer>(id, c));
 		}
 		try {

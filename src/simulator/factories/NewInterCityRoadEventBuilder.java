@@ -4,6 +4,7 @@ import org.json.JSONObject;
 
 import simulator.model.Event;
 import simulator.model.NewCityRoadEvent;
+import simulator.model.NewInterCityRoadEvent;
 import simulator.model.Weather;
 
 public class NewInterCityRoadEventBuilder extends Builder<Event> {
@@ -23,8 +24,8 @@ public class NewInterCityRoadEventBuilder extends Builder<Event> {
 		int maxSpeed = data.getInt("maxspeed");
 		
 		String s = data.getString("weather").toUpperCase();
-		Weather w = Weather.valueOf(s.toUpperCase());
-		return new NewCityRoadEvent(time, id, src, dest, length, contLimit, maxSpeed, w);
+		Weather w = Weather.valueOf(s);
+		return new NewInterCityRoadEvent(time, id, src, dest, length, contLimit, maxSpeed, w);
 	}
 
 }

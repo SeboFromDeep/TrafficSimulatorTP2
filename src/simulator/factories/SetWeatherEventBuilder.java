@@ -26,7 +26,7 @@ public class SetWeatherEventBuilder extends Builder<Event> {
 		for (int i = 0; i < roadsJson.length(); i++) {
 			JSONObject r = roadsJson.getJSONObject(i);
 			String id = r.getString("road");
-			Weather w = Weather.valueOf(data.getString("weather").toUpperCase());
+			Weather w = Weather.valueOf(r.getString("weather").toUpperCase());
 			roadsList.add(new Pair<String, Weather>(id, w));
 		}
 		
