@@ -25,22 +25,30 @@ public class TrafficSimulator {
 		events.add(e);
 	}
 	
-	public void advance() {
+	public void advance() throws Exception {
 		//1. increment time
 		time++;
 		
 		//2. execute and remove events with time == this.time
+		List<Event> aux = new LinkedList<>();
 		for (Event e : events) {
-			if (e.getTime() == time) {
-				e.execute(roadMap);
-				events.remove(e);
-			}
-			if (e.getTime() > time) break; // since the events list is sorted by time we can break after an event has greater time
+			if (e.getTime() == this.time) aux.add(e);
+			else if (e.getTime() > time) break;
+		}
+			
+		for (Event e : aux) {
+			e.execute(roadMap);
+			events.remove(e);
 		}
 		
 		//3. make junctions advance
 		for (Junction j : roadMap.getJunctions()) {
 			j.advance(time);
+		}
+		
+		//a lo mejor nos vendria bien tener un array con pending vehicles para no hacer esto todo el rato
+		for (Vehicle v : roadMap.getVehicles()) {
+			if (v.getStatus() == VehicleStatus.PENDING) v.moveToNextRoad();
 		}
 		
 		//4. make roads advance
@@ -52,7 +60,7 @@ public class TrafficSimulator {
 	public JSONObject report() {
 		JSONObject ts = new JSONObject();
 		ts.put("time", time);
-		ts.put("state", roadMap.report().toString());
+		ts.put("state", roadMap.report());
 		
 		return ts;
 	}

@@ -52,12 +52,13 @@ public class Junction extends SimulatedObject {
 	//Methods
 	@Override
 	void advance(int time) {
-		List<Vehicle> dequedVehicles = dqStrat.dequeue(queueList.get(green));
-		for (Vehicle v : dequedVehicles) {
-			v.moveToNextRoad();					//move v to next road
-			queueList.get(green).remove(v);		//remove v from queueList
+		if (green != -1) {
+			List<Vehicle> dequedVehicles = dqStrat.dequeue(queueList.get(green));
+			for (Vehicle v : dequedVehicles) {
+				v.moveToNextRoad();					//move v to next road
+				queueList.get(green).remove(v);		//remove v from queueList
+			}
 		}
-		
 		int lastGreen = green;
 		this.green = lsStrat.chooseNextGreen(incomingRoads, queueList, green, lastSwitchingTime, time);//curTime es time?
 		if (green != lastGreen) lastSwitchingTime = time;
