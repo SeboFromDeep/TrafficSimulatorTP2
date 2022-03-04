@@ -8,14 +8,14 @@ public class SetContClassEvent extends Event{
 	
 	private List<Pair<String,Integer>> cs;
 
-	public SetContClassEvent(int time, List<Pair<String,Integer>> cs) throws Exception {
+	public SetContClassEvent(int time, List<Pair<String,Integer>> cs) throws IllegalArgumentException {
 		super(time);
-		if(cs == null)throw new Exception();
+		if(cs == null)throw new IllegalArgumentException("[ERROR]: contClass can not be null." );
 		this.cs = cs;
 		}
 
 	@Override
-	void execute(RoadMap map) throws Exception {
+	void execute(RoadMap map) {
 		// TODO Auto-generated method stub
 		for(Pair<String, Integer> i : cs) {
 			Vehicle aux = map.getVehicle(i.getFirst());
