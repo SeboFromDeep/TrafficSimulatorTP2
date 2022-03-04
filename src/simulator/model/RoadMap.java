@@ -9,12 +9,6 @@ import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import exception.InvalidItineraryException;
-import exception.JunctionAlreadyPresentException;
-import exception.JunctionNotPresentException;
-import exception.RoadAlreadyPresentException;
-import exception.VehicleAlreadyPresentException;
-
 public class RoadMap {
 	
 	//Atributes
@@ -38,8 +32,8 @@ public class RoadMap {
 	}
 	
 	//Methods
-	void addJunction(Junction j) throws JunctionAlreadyPresentException {
-		if (junctionMap.containsKey(j.getId())) throw new JunctionAlreadyPresentException(String.format("[ERROR]: the Junction %s already exist in the RoadMap.", j.getId()));
+	void addJunction(Junction j) throws IllegalArgumentException {
+		if (junctionMap.containsKey(j.getId())) throw new IllegalArgumentException(String.format("[ERROR]: the Junction %s already exist in the RoadMap.", j.getId()));
 		
 		//if the junction isn't in the RoadMap 
 		junctions.add(j);												//add it to the end of the list
@@ -47,17 +41,17 @@ public class RoadMap {
 		
 	}
 	
-	void addRoad(Road r) throws RoadAlreadyPresentException, JunctionNotPresentException {
-		if (roadMap.containsKey(r.getId())) throw new RoadAlreadyPresentException(String.format("[ERROR]: the Road %s already exist in the RoadMap.", r.getId()));  
-		if (!junctionMap.containsKey(r.getSrcJunc().getId()) || !junctionMap.containsKey(r.getDestJunc().getId())) throw new JunctionNotPresentException("[ERROR]: both Junctions of the Road have to be Present in the RoadMap.");
+	void addRoad(Road r) throws IllegalArgumentException {
+		if (roadMap.containsKey(r.getId())) throw new IllegalArgumentException(String.format("[ERROR]: the Road %s already exist in the RoadMap.", r.getId()));  
+		if (!junctionMap.containsKey(r.getSrc().getId()) || !junctionMap.containsKey(r.getDest().getId())) throw new IllegalArgumentException("[ERROR]: both Junctions of the Road have to be Present in the RoadMap.");
 		roads.add(r);
 		roadMap.put(r.getId(), roads.get(roads.size()-1));
 		
 	}
 	
-	void addVehicle(Vehicle v) throws InvalidItineraryException, VehicleAlreadyPresentException {
-		if (roadMap.containsKey(v.getId())) throw new VehicleAlreadyPresentException(String.format("[ERROR]: the Vehicle %s already exist in the RoadMap.", v.getId()));  
-		if (!invalidItinerary(v)) throw new InvalidItineraryException(String.format("[ERROR]: the itinerary of %s can not be completed.", v.getId()));
+	void addVehicle(Vehicle v) throws IllegalArgumentException {
+		if (roadMap.containsKey(v.getId())) throw new IllegalArgumentException(String.format("[ERROR]: the Vehicle %s already exist in the RoadMap.", v.getId()));  
+		if (!invalidItinerary(v)) throw new IllegalArgumentException(String.format("[ERROR]: the itinerary of %s can not be completed.", v.getId()));
 		vehicles.add(v);
 		vehicleMap.put(v.getId(), vehicles.get(vehicles.size()-1));
 	}

@@ -8,17 +8,10 @@ import java.util.List;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
-import exception.InvalidArgumentsException;
-import exception.InvalidItineraryException;
-import exception.JunctionAlreadyPresentException;
-import exception.JunctionNotPresentException;
-import exception.RoadAlreadyPresentException;
-import exception.VehicleAlreadyPresentException;
-
 class RoadMapTest {
 
 	@Test
-	void test_1() throws InvalidArgumentsException, RoadAlreadyPresentException, JunctionNotPresentException, InvalidItineraryException, VehicleAlreadyPresentException, JunctionAlreadyPresentException {
+	void test_1() {
 		RoadMap map = new RoadMap();
 		
 		//  junctions
@@ -76,14 +69,12 @@ class RoadMapTest {
 
 		// check the report
 		String s = "{\"roads\":[{\"speedlimit\":100,\"co2\":0,\"weather\":\"SUNNY\",\"vehicles\":[],\"id\":\"r1\"},{\"speedlimit\":100,\"co2\":0,\"weather\":\"SUNNY\",\"vehicles\":[],\"id\":\"r2\"}],\"vehicles\":[{\"distance\":0,\"co2\":0,\"id\":\"v1\",\"class\":1,\"speed\":0,\"status\":\"PENDING\"},{\"distance\":0,\"co2\":0,\"id\":\"v2\",\"class\":1,\"speed\":0,\"status\":\"PENDING\"},{\"distance\":0,\"co2\":0,\"id\":\"v3\",\"class\":1,\"speed\":0,\"status\":\"PENDING\"},{\"distance\":0,\"co2\":0,\"id\":\"v4\",\"class\":1,\"speed\":0,\"status\":\"PENDING\"}],\"junctions\":[{\"green\":\"none\",\"queues\":[],\"id\":\"j1\"},{\"green\":\"none\",\"queues\":[{\"road\":\"r1\",\"vehicles\":[]}],\"id\":\"j2\"},{\"green\":\"none\",\"queues\":[{\"road\":\"r2\",\"vehicles\":[]}],\"id\":\"j3\"}]}";
-		System.out.println(new JSONObject(s));
-		System.out.println(map.report());
 		assertTrue( new JSONObject(s).similar(map.report()));
 	
 	}
 
 	@Test
-	void error_handling() throws InvalidArgumentsException, RoadAlreadyPresentException, JunctionNotPresentException, InvalidItineraryException, VehicleAlreadyPresentException, JunctionAlreadyPresentException {
+	void error_handling() {
 		RoadMap map = new RoadMap();
 		
 		//  junctions
