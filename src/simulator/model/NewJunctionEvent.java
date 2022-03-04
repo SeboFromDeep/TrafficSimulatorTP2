@@ -1,7 +1,5 @@
 package simulator.model;
 
-import exception.InvalidArgumentsException;
-import exception.JunctionAlreadyPresentException;
 
 public class NewJunctionEvent extends Event {
 	
@@ -25,8 +23,8 @@ public class NewJunctionEvent extends Event {
 	void execute(RoadMap map) {
 		try {
 			map.addJunction(new Junction(id, lsStrat, dqStrat, x, y));
-		} catch (JunctionAlreadyPresentException | InvalidArgumentsException e) {
-			e.getMessage();
+		} catch (IllegalArgumentException e) {
+			System.out.println(e.getMessage());
 		}
 
 	}
