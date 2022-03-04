@@ -21,7 +21,7 @@ public class NewVehicleEvent extends Event{
 			}
 
 	@Override
-	void execute(RoadMap map) throws Exception {
+	void execute(RoadMap map) {
 		// TODO Auto-generated method stub
 		List<Junction> l = new ArrayList<Junction>();
 		for(String i: itinerary) {
