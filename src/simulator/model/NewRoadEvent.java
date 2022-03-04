@@ -23,6 +23,6 @@ public abstract class NewRoadEvent extends Event{
 	}
 
 	@Override
-	abstract void execute(RoadMap map) throws Exception;
+	abstract void execute(RoadMap map);
 
 }

@@ -58,7 +58,7 @@ public class Vehicle extends SimulatedObject {
 		}
 		
 		if (location >= road.getLength()) {			// if the vehicle reaches the end of the road:
-			road.getDestJunc().enter(this);			// vehicle enters junction
+			road.getDest().enter(this);			// vehicle enters junction
 			this.setStatus(VehicleStatus.WAITING);	// changes status to waiting
 		}
 	}
@@ -95,7 +95,7 @@ public class Vehicle extends SimulatedObject {
 			}
 		}
 		// Case 2: vehicle exits last road of itinerary
-		else if (road.getDestJunc() == itinerary.get(itinerary.size() - 1)) {
+		else if (road.getDest() == itinerary.get(itinerary.size() - 1)) {
 			road.exit(this);
 			this.road = null;
 			setStatus(VehicleStatus.ARRIVED);
@@ -103,7 +103,7 @@ public class Vehicle extends SimulatedObject {
 		// Case 3: vehicle enters next road of itinerary
 		else {
 			try {
-				Road nextRoad = road.getDestJunc().roadTo(road.getDestJunc());
+				Road nextRoad = road.getDest().roadTo(road.getDest());
 				road.exit(this);
 				this.road = nextRoad;
 				this.location = 0;
