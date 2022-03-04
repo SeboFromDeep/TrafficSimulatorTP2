@@ -1,9 +1,5 @@
 package simulator.model;
 
-import exception.InvalidArgumentsException;
-import exception.JunctionNotPresentException;
-import exception.RoadAlreadyPresentException;
-
 public class NewCityRoadEvent extends NewRoadEvent{
 	
 	
@@ -15,7 +11,7 @@ public class NewCityRoadEvent extends NewRoadEvent{
 			}
 
 	@Override
-	void execute(RoadMap map) throws Exception {
+	void execute(RoadMap map) {
 		// TODO Auto-generated method stub
 		Junction aux = map.getJunction(src);
 		Junction aux2 = map.getJunction(dest);

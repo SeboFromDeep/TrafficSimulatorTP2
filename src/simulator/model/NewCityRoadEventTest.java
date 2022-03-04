@@ -6,13 +6,10 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import exception.InvalidArgumentsException;
-import exception.JunctionAlreadyPresentException;
-
 class NewCityRoadEventTest {
 
 	@Test
-	void test_1() throws Exception {
+	void test_1() {
 		RoadMap map = new RoadMap();
 		//  junctions
 		Junction j1 = new Junction("j1", new RoundRobinStrategy(10), new MoveFirstStrategy(), 0, 0);
