@@ -64,4 +64,9 @@ public class TrafficSimulator {
 		
 		return ts;
 	}
+	public void reset() {
+		this.events.clear();
+		this.roadMap.reset();
+		this.time = 0;
+	}
 }

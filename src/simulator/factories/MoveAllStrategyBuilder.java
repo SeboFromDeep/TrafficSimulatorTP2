@@ -7,7 +7,7 @@ import simulator.model.MoveAllStrategy;
 
 public class MoveAllStrategyBuilder extends Builder<DequeingStrategy> {
 
-	MoveAllStrategyBuilder() {
+	public MoveAllStrategyBuilder() {
 		super("move_all_dqs");
 	}
 
