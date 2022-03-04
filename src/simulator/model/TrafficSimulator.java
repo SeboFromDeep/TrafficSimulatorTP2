@@ -25,7 +25,7 @@ public class TrafficSimulator {
 		events.add(e);
 	}
 	
-	public void advance() throws Exception {
+	public void advance() {
 		//1. increment time
 		time++;
 		
