@@ -9,7 +9,7 @@ public class NewInterCityRoadEvent extends NewRoadEvent{
 			}
 
 	@Override
-	void execute(RoadMap map) throws Exception {
+	void execute(RoadMap map) {
 		// TODO Auto-generated method stub
 		Junction aux = map.getJunction(src);
 		Junction aux2 = map.getJunction(dest);
