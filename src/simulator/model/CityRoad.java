@@ -1,12 +1,9 @@
 package simulator.model;
 
-import exception.InvalidArgumentsException;
-
 public class CityRoad extends Road {
 
-	CityRoad(String id, Junction srcJunc, Junction destJunc, int maxSpeed, int contLimit, int length, Weather weather) throws InvalidArgumentsException {
+	CityRoad(String id, Junction srcJunc, Junction destJunc, int maxSpeed, int contLimit, int length, Weather weather) throws IllegalArgumentException {
 		super(id, srcJunc, destJunc, maxSpeed, contLimit, length, weather);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -23,7 +20,7 @@ public class CityRoad extends Road {
 			x = 2;
 			break;
 		}
-		setTotalCont(Math.max(getTotalCont()-x, 0));
+		setTotalCO2(Math.max(getTotalCO2()-x, 0));
 	}
 
 	@Override

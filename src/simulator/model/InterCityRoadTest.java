@@ -24,8 +24,8 @@ class InterCityRoadTest {
 		Road r1 = new InterCityRoad("r1", j1, j2, 100, 500, 1000, Weather.SUNNY);
 
 		// check correctness of src/dest junctions
-		assertEquals(j1, r1.getSrcJunc());
-		assertEquals(j2, r1.getDestJunc());
+		assertEquals(j1, r1.getSrc());
+		assertEquals(j2, r1.getDest());
 
 		// test set/get weather
 		assertEquals(Weather.SUNNY, r1.getWeather());
@@ -45,7 +45,7 @@ class InterCityRoadTest {
 		assertEquals(500, r1.getContLimit());
 
 		// total contamination
-		assertEquals(0, r1.getTotalCont());
+		assertEquals(0, r1.getTotalCO2());
 
 	}
 
@@ -87,9 +87,9 @@ class InterCityRoadTest {
 		assertEquals(100, v2.getSpeed());
 
 		// check correctness of total co2
-		assertEquals(350, r1.getTotalCont());
-		assertEquals(50, v1.getContamination());
-		assertEquals(300, v2.getContamination());
+		assertEquals(350, r1.getTotalCO2());
+		assertEquals(50, v1.getTotalCO2());
+		assertEquals(300, v2.getTotalCO2());
 
 		r1.setWeather(Weather.STORM);
 		r1.advance(1);
@@ -102,9 +102,9 @@ class InterCityRoadTest {
 		assertEquals(40, v2.getSpeed());
 
 		// check correctness of total co2
-		assertEquals(440, r1.getTotalCont());
-		assertEquals(90, v1.getContamination());
-		assertEquals(420, v2.getContamination());
+		assertEquals(440, r1.getTotalCO2());
+		assertEquals(90, v1.getTotalCO2());
+		assertEquals(420, v2.getTotalCO2());
 	}
 
 	// list of vehicles is returned as unmodifiable

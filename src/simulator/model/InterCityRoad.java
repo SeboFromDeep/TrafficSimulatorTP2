@@ -1,13 +1,9 @@
 package simulator.model;
 
-import exception.InvalidArgumentsException;
-import exception.NegativeSpeedException;
-
 public class InterCityRoad extends Road {
 
-	InterCityRoad(String id, Junction srcJunc, Junction destJunc, int maxSpeed, int contLimit, int length, Weather weather) throws InvalidArgumentsException {
+	InterCityRoad(String id, Junction srcJunc, Junction destJunc, int maxSpeed, int contLimit, int length, Weather weather) throws IllegalArgumentException {
 		super(id, srcJunc, destJunc, maxSpeed, contLimit, length, weather);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -32,12 +28,12 @@ public class InterCityRoad extends Road {
 		default:
 			//throw new IllegalArgumentException("Unexpected value: " + getWeather());		
 		}
-		setTotalCont(((100-x)*getTotalCont())/100);
+		setTotalCO2(((100-x)*getTotalCO2())/100);
 	}
 
 	@Override
 	void updateSpeedLimit() {
-		if (getTotalCont() > getContLimit()) setSpeedLimit(getMaxSpeed()/2);
+		if (getTotalCO2() > getContLimit()) setSpeedLimit(getMaxSpeed()/2);
 		else setSpeedLimit(getMaxSpeed());
 	}
 

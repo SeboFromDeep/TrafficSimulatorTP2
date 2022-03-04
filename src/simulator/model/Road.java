@@ -8,18 +8,6 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import exception.InvalidArgumentsException;
-import exception.InvalidIdException;
-import exception.InvalidMaxSpeedException;
-import exception.JunctionException;
-import exception.NegativeContLimitException;
-import exception.NegativeContaminationException;
-import exception.NegativeLengthException;
-import exception.NegativeSpeedException;
-import exception.NullJunctionException;
-import exception.NullWeatherException;
-import exception.RoadException;
-
 public abstract class Road extends SimulatedObject {
 	
 	//Atributes
@@ -33,13 +21,12 @@ public abstract class Road extends SimulatedObject {
 	private Weather weather;
 	private List<Vehicle> vehicles;//cambiar getter
 
-	Road(String id, Junction srcJunc, Junction destJunc, int maxSpeed, int contLimit, int length, Weather weather) throws InvalidArgumentsException{
+	Road(String id, Junction srcJunc, Junction destJunc, int maxSpeed, int contLimit, int length, Weather weather) throws IllegalArgumentException{
 		super(id);
 		try {
 			validateArguments(id, srcJunc, destJunc, maxSpeed, contLimit, length, weather);
-		} catch (InvalidIdException | InvalidMaxSpeedException | NegativeContLimitException | NegativeLengthException | NullJunctionException
-				| NullWeatherException e) {
-			throw new InvalidArgumentsException(e.getMessage());
+		} catch (IllegalArgumentException e) {
+			throw new IllegalArgumentException(e.getMessage());
 		}
 			this.srcJunc = srcJunc;
 			this.destJunc = destJunc;
@@ -54,7 +41,7 @@ public abstract class Road extends SimulatedObject {
 			try {
 				this.srcJunc.addOutGoingRoad(this);
 				this.destJunc.addIncommingRoad(this);
-			} catch (JunctionException e) {
+			} catch (IllegalArgumentException e) {
 				System.out.println(e.getMessage());
 			}
 			
@@ -74,7 +61,7 @@ public abstract class Road extends SimulatedObject {
 		for (Vehicle v : vehicles) {
 			try {
 				v.setSpeed(calculateVehicleSpeed(v));
-			} catch (NegativeSpeedException e) {
+			} catch (IllegalArgumentException e) {
 				e.printStackTrace();
 			}
 			v.advance(time);
@@ -88,7 +75,7 @@ public abstract class Road extends SimulatedObject {
 		road.put("id", getId());
 		road.put("speedlimit", getSpeedLimit());
 		road.put("weather", getWeather().toString());
-		road.put("co2", getTotalCont());
+		road.put("co2", getTotalCO2());
 		
 		JSONArray vehicles_array = new JSONArray();
 		for (Vehicle v : vehicles) {
@@ -98,42 +85,42 @@ public abstract class Road extends SimulatedObject {
 		return road;
 	}
 	
-	void enter(Vehicle v) throws RoadException{
+	void enter(Vehicle v) throws IllegalArgumentException{
 		if (v.getLocation() == 0 && v.getSpeed() == 0) vehicles.add(v);
-		else throw new RoadException("[ERROR]: vehicle has to have speed 0 and location 0 to enter a Road.");
+		else throw new IllegalArgumentException("[ERROR]: vehicle has to have speed 0 and location 0 to enter a Road.");
 	}
 	
 	void exit(Vehicle v) {
 		vehicles.remove(v);
 	}
 	
-	void addContamination(int c) throws NegativeContaminationException{
-		if (c < 0) throw new NegativeContaminationException("[ERROR]: contamination has to be positive");
+	void addContamination(int c) throws IllegalArgumentException{
+		if (c < 0) throw new IllegalArgumentException("[ERROR]: contamination has to be positive");
 		totalCont += c;
 	}
 	
-	public void setWeather(Weather weather) throws NullWeatherException{
-		if (weather == null) throw new NullWeatherException("[ERROR]: weather can not be null");
+	public void setWeather(Weather weather) throws IllegalArgumentException{
+		if (weather == null) throw new IllegalArgumentException("[ERROR]: weather can not be null");
 		this.weather = weather;
 	}
 
 	//Getters & Setters
-	public Junction getSrcJunc() {
+	public Junction getSrc() {
 		return srcJunc;
 	}
 
 
-	public void setSrcJunc(Junction srcJunc) {
+	public void setSrc(Junction srcJunc) {
 		this.srcJunc = srcJunc;
 	}
 
 
-	public Junction getDestJunc() {
+	public Junction getDest() {
 		return destJunc;
 	}
 
 
-	public void setDestJunc(Junction destJunc) {
+	public void setDest(Junction destJunc) {
 		this.destJunc = destJunc;
 	}
 	
@@ -167,12 +154,12 @@ public abstract class Road extends SimulatedObject {
 	}
 
 
-	public int getTotalCont() {
+	public int getTotalCO2() {
 		return totalCont;
 	}
 
 
-	public void setTotalCont(int totalCont) {
+	public void setTotalCO2(int totalCont) {
 		this.totalCont = totalCont;
 	}
 
@@ -201,12 +188,12 @@ public abstract class Road extends SimulatedObject {
 		this.vehicles = vehicles;
 	}
 
-	public void validateArguments(String id, Junction srcJunc, Junction destJunc, int maxSpeed, int contLimit, int length, Weather weather) throws InvalidMaxSpeedException, NegativeContLimitException, NegativeLengthException, NullJunctionException, NullWeatherException, InvalidIdException {
-		if (id == null || id == "") throw new InvalidIdException("[ERROR]: id can not be null or an empty string.");
-		if (maxSpeed < 1) throw new InvalidMaxSpeedException("[ERROR]: maxSpeed has to be a positive integer.");
-		if (contLimit < 1) throw new NegativeContLimitException("[ERROR]: contLimit can not be negative.");
-		if (length < 1) throw new NegativeLengthException("[ERROR]: length has to be positive.");
-		if (srcJunc == null || destJunc == null) throw new NullJunctionException("[ERROR]: neither source Junction or destination Junction can be null.");
-		if (weather == null) throw new NullWeatherException("[ERROR]: weather can not be null.");
+	public void validateArguments(String id, Junction srcJunc, Junction destJunc, int maxSpeed, int contLimit, int length, Weather weather) throws IllegalArgumentException{
+		if (id == null || id == "") throw new IllegalArgumentException("[ERROR]: id can not be null or an empty string.");
+		if (maxSpeed < 1) throw new IllegalArgumentException("[ERROR]: maxSpeed has to be a positive integer.");
+		if (contLimit < 1) throw new IllegalArgumentException("[ERROR]: contLimit can not be negative.");
+		if (length < 1) throw new IllegalArgumentException("[ERROR]: length has to be positive.");
+		if (srcJunc == null || destJunc == null) throw new IllegalArgumentException("[ERROR]: neither source Junction or destination Junction can be null.");
+		if (weather == null) throw new IllegalArgumentException("[ERROR]: weather can not be null.");
 	}
 }
