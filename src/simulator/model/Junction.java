@@ -9,12 +9,6 @@ import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import exception.InvalidArgumentsException;
-import exception.InvalidIdException;
-import exception.JunctionException;
-import exception.NegativeCoordException;
-import exception.NullStrategyException;
-
 public class Junction extends SimulatedObject {
 	
 	//Attributes
@@ -30,7 +24,7 @@ public class Junction extends SimulatedObject {
 	private int y;
 
 	
-	Junction(String id, LightSwitchingStrategy lsStrategy, DequeingStrategy dqStrategy, int xCoor, int yCoor) throws InvalidArgumentsException {//comprobar valores
+	Junction(String id, LightSwitchingStrategy lsStrategy, DequeingStrategy dqStrategy, int xCoor, int yCoor) throws IllegalArgumentException {
 		super(id);
 		try {
 			validateArguments(id, lsStrategy, dqStrategy, xCoor, yCoor);
@@ -44,8 +38,8 @@ public class Junction extends SimulatedObject {
 			this.lastSwitchingTime = 0;
 			this.x = xCoor;
 			this.y = yCoor;
-		} catch (InvalidIdException | NullStrategyException | NegativeCoordException e) {
-			throw new InvalidArgumentsException(e.getMessage());
+		} catch (IllegalArgumentException e) {
+			throw new IllegalArgumentException(e.getMessage());
 		}
 	}
 
@@ -92,18 +86,18 @@ public class Junction extends SimulatedObject {
 		return junction;
 	}
 	
-	void addIncommingRoad(Road r) throws JunctionException{
-		if (r.getDestJunc() != this) throw new JunctionException(String.format("[ERROR]: the road does not have %s as Destination Junction.", getId()));
+	void addIncommingRoad(Road r) throws IllegalArgumentException{
+		if (r.getDest() != this) throw new IllegalArgumentException(String.format("[ERROR]: the road does not have %s as Destination Junction.", getId()));
 		incomingRoads.add(r);							//add road to incomingRoads List
 		List<Vehicle> l = new LinkedList<Vehicle>();	//create a linkedList of the vehicles from Road r
 		queueList.add(l);								//add the linkedList to queueList
 		roadListMap.put(r, l);							//create a new entry in the roadMapList
 	}
 	
-	void addOutGoingRoad(Road r) throws JunctionException{
-		if (r.getSrcJunc() != this) throw new JunctionException(String.format("[ERROR]: the road does not have %s as Source Junction.", getId()));
-		if (outgoingRoads.containsKey(r.getDestJunc())) throw new JunctionException(String.format("[ERROR]: there is already a road that goes from %s to %s.", getId(), r.getDestJunc().getId()));
-		outgoingRoads.put(r.getDestJunc(), r);
+	void addOutGoingRoad(Road r) throws IllegalArgumentException{
+		if (r.getSrc() != this) throw new IllegalArgumentException(String.format("[ERROR]: the road does not have %s as Source Junction.", getId()));
+		if (outgoingRoads.containsKey(r.getDest())) throw new IllegalArgumentException(String.format("[ERROR]: there is already a road that goes from %s to %s.", getId(), r.getDest().getId()));
+		outgoingRoads.put(r.getDest(), r);
 	}
 
 	void enter(Vehicle v) {
@@ -188,9 +182,9 @@ public class Junction extends SimulatedObject {
 		this.y = y;
 	}
 	
-	public void validateArguments(String id, LightSwitchingStrategy lsStrategy, DequeingStrategy dqStrategy, int xCoor, int yCoor) throws NullStrategyException, NegativeCoordException, InvalidIdException {
-		if (id == null || id == "") throw new InvalidIdException("[ERROR]: id can not be null or an empty string.");
-		if (lsStrategy == null || dqStrategy == null) throw new NullStrategyException("[ERROR]: can not have a null LightSwitchingStrategy or DequeingStrategy.");
-		if (xCoor < 0 || yCoor < 0)	throw new NegativeCoordException("[ERROR]: xCoor and yCoor have to be a positive integer");
+	public void validateArguments(String id, LightSwitchingStrategy lsStrategy, DequeingStrategy dqStrategy, int xCoor, int yCoor) throws IllegalArgumentException{
+		if (id == null || id == "") throw new IllegalArgumentException("[ERROR]: id can not be null or an empty string.");
+		if (lsStrategy == null || dqStrategy == null) throw new IllegalArgumentException("[ERROR]: can not have a null LightSwitchingStrategy or DequeingStrategy.");
+		if (xCoor < 0 || yCoor < 0)	throw new IllegalArgumentException("[ERROR]: xCoor and yCoor have to be a positive integer");
 	}
 }

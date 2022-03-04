@@ -4,12 +4,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-import exception.InvalidArgumentsException;
-
 class JunctionTest {
 
 	@Test
-	void test_1() throws InvalidArgumentsException {
+	void test_1() {
 		// junctions
 		Junction j1 = new Junction("j1", new RoundRobinStrategy(10), new MoveFirstStrategy(), 0, 0);
 		Junction j2 = new Junction("j2", new RoundRobinStrategy(10), new MoveFirstStrategy(), 0, 0);
