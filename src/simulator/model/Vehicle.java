@@ -6,16 +6,6 @@ import java.util.List;
 
 import org.json.JSONObject;
 
-import exception.InvalidArgumentsException;
-import exception.InvalidContClassException;
-import exception.InvalidIdException;
-import exception.InvalidMaxSpeedException;
-import exception.ItineraryTooShortException;
-import exception.NegativeContaminationException;
-import exception.NegativeSpeedException;
-import exception.RoadException;
-import exception.VehicleException;
-
 public class Vehicle extends SimulatedObject {
 	
 	//Atributes
@@ -25,12 +15,12 @@ public class Vehicle extends SimulatedObject {
 	private VehicleStatus status;
 	private Road road;
 	private int location;
-	private int contamination;
+	private int totalCO2;
 	private int contClass;
 	private int distance;
 	
 
-	Vehicle(String id, int maxSpeed, int contClass, List<Junction> itinerary) throws InvalidArgumentsException{//hacer comprobaciones
+	Vehicle(String id, int maxSpeed, int contClass, List<Junction> itinerary) throws IllegalArgumentException{
 		super(id);
 		try {
 			validateArguments(id, maxSpeed, contClass, itinerary);
@@ -38,11 +28,11 @@ public class Vehicle extends SimulatedObject {
 			this.contClass = contClass;
 			this.itinerary = Collections.unmodifiableList(new ArrayList<>(itinerary));
 			this.distance = 0;
-			this.contamination = 0;
+			this.totalCO2 = 0;
 			this.status = VehicleStatus.PENDING;
 			
-		} catch (InvalidIdException | InvalidMaxSpeedException | InvalidContClassException | ItineraryTooShortException e) {
-			throw new InvalidArgumentsException(e.getMessage());
+		} catch (IllegalArgumentException e) {
+			throw new IllegalArgumentException(e.getMessage());
 		}
 		
 	}
@@ -59,10 +49,10 @@ public class Vehicle extends SimulatedObject {
 		this.distance += advanced_spaced;
 		
 		int increasedCont = contClass * advanced_spaced;
-		this.contamination += increasedCont;
+		this.totalCO2 += increasedCont;
 		try {
 			road.addContamination(increasedCont);
-		} catch (NegativeContaminationException e) {
+		} catch (IllegalArgumentException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -80,7 +70,7 @@ public class Vehicle extends SimulatedObject {
 		vehicle.put("id", getId());
 		vehicle.put("speed", getSpeed());
 		vehicle.put("distance", getDistance());
-		vehicle.put("co2", getContamination());
+		vehicle.put("co2", getTotalCO2());
 		vehicle.put("class", getContClass());
 		vehicle.put("status", getStatus().toString());
 		if (getStatus().equals(VehicleStatus.TRAVELING) || getStatus().equals(VehicleStatus.WAITING)) {
@@ -100,7 +90,7 @@ public class Vehicle extends SimulatedObject {
 				location = 0;
 				setStatus(VehicleStatus.TRAVELING);
 			}
-			catch (RoadException e) {
+			catch (IllegalArgumentException e) {
 				e.printStackTrace();
 			}
 		}
@@ -118,7 +108,7 @@ public class Vehicle extends SimulatedObject {
 				this.road = nextRoad;
 				this.location = 0;
 				road.enter(this);
-			} catch (RoadException e) {
+			} catch (IllegalArgumentException e) {
 				e.printStackTrace();
 			}
 			
@@ -154,8 +144,8 @@ public class Vehicle extends SimulatedObject {
 	}
 
 
-	public void setSpeed(int s) throws NegativeSpeedException{
-		if (s < 0) throw new NegativeSpeedException("[ERROR]: speed can not be negative");
+	public void setSpeed(int s) throws IllegalArgumentException{
+		if (s < 0) throw new IllegalArgumentException("[ERROR]: speed can not be negative");
 		this.speed = Math.min(getMaxSpeed(), s);
 	}
 
@@ -189,13 +179,13 @@ public class Vehicle extends SimulatedObject {
 		this.location = location;
 	}
 
-	public int getContamination() {
-		return contamination;
+	public int getTotalCO2() {
+		return totalCO2;
 	}
 
 
-	public void setContamination(int contamination) {
-		this.contamination = contamination;
+	public void setTotalCO2(int contamination) {
+		this.totalCO2 = contamination;
 	}
 
 
@@ -204,8 +194,8 @@ public class Vehicle extends SimulatedObject {
 	}
 
 
-	public void setContClass(int contClass) throws InvalidContClassException{
-		if (contClass < 0 || contClass > 10) throw new InvalidContClassException("[ERROR]: contClass has to be an integer between 0 and 10 (both included).");
+	public void setContClass(int contClass) throws IllegalArgumentException{
+		if (contClass < 0 || contClass > 10) throw new IllegalArgumentException("[ERROR]: contClass has to be an integer between 0 and 10 (both included).");
 		this.contClass = contClass;
 	}
 
@@ -220,11 +210,11 @@ public class Vehicle extends SimulatedObject {
 	}
 
 	
-	public void validateArguments(String id, int maxSpeed, int contClass, List<Junction> itinerary) throws InvalidIdException, InvalidMaxSpeedException, InvalidContClassException, ItineraryTooShortException{
-		if (id == null || id == "") throw new InvalidIdException("[ERROR]: id can not be null or an empty string.");
-		if (maxSpeed < 1 ) throw new InvalidMaxSpeedException("[ERROR]: maxSpeed has to be a positive integer.");
-		if (contClass < 0 || contClass > 10) throw new InvalidContClassException("[ERROR]: contClass has to be an integer between 0 and 10 (both included).");
-		if (itinerary.size() < 2) throw new ItineraryTooShortException("[ERROR]: itinerary size has to be at least 2.");
+	public void validateArguments(String id, int maxSpeed, int contClass, List<Junction> itinerary) throws IllegalArgumentException{
+		if (id == null || id == "") throw new IllegalArgumentException("[ERROR]: id can not be null or an empty string.");
+		if (maxSpeed < 1 ) throw new IllegalArgumentException("[ERROR]: maxSpeed has to be a positive integer.");
+		if (contClass < 0 || contClass > 10) throw new IllegalArgumentException("[ERROR]: contClass has to be an integer between 0 and 10 (both included).");
+		if (itinerary.size() < 2) throw new IllegalArgumentException("[ERROR]: itinerary size has to be at least 2.");
 	}
 }
 

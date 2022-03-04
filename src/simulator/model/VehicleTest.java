@@ -7,15 +7,11 @@ import java.util.Arrays;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
-import exception.InvalidArgumentsException;
-import exception.InvalidContClassException;
-import exception.NegativeSpeedException;
-
 class VehicleTest {
 
 		
 	@Test
-	void getset_contamination_class() throws InvalidArgumentsException, InvalidContClassException {
+	void getset_contamination_class() {
 
 		// two junctions
 		Junction j1 = new Junction("j1", new RoundRobinStrategy(10), new MoveFirstStrategy(), 0, 0);
@@ -37,7 +33,7 @@ class VehicleTest {
 	}
 
 	@Test
-	void getset_test_speed() throws InvalidArgumentsException, NegativeSpeedException {
+	void getset_test_speed() {
 
 		// two junctions
 		Junction j1 = new Junction("j1", new RoundRobinStrategy(10), new MoveFirstStrategy(), 0, 0);
@@ -70,7 +66,7 @@ class VehicleTest {
 	}
 
 	@Test
-	void test_report() throws InvalidArgumentsException {
+	void test_report() {
 		// two junctions
 		Junction j1 = new Junction("j1", new RoundRobinStrategy(10), new MoveFirstStrategy(), 0, 0);
 		Junction j2 = new Junction("j2", new RoundRobinStrategy(10), new MoveFirstStrategy(), 0, 0);
@@ -90,7 +86,7 @@ class VehicleTest {
 	
 	// when asking for the itinerary, it should be returned as read only
 	@Test
-	void test_iterinary_is_readonly() throws InvalidArgumentsException {
+	void test_iterinary_is_readonly() {
 		// two junctions
 		Junction j1 = new Junction("j1", new RoundRobinStrategy(10), new MoveFirstStrategy(), 0, 0);
 		Junction j2 = new Junction("j2", new RoundRobinStrategy(10), new MoveFirstStrategy(), 0, 0);
@@ -104,7 +100,7 @@ class VehicleTest {
 	
 	// some basic tests of the different methods
 	@Test
-	void test_1() throws InvalidArgumentsException {
+	void test_1() {
 
 		// two junctions
 		Junction j1 = new Junction("j1", new RoundRobinStrategy(10), new MoveFirstStrategy(), 0, 0);
@@ -148,7 +144,7 @@ class VehicleTest {
 		assertEquals(50, v1.getLocation());
 		
 		// check the vehicle's contamination
-		assertEquals(50,v1.getContamination());
+		assertEquals(50,v1.getTotalCO2());
 
 		// check that the report/toString is OK
 		String s = "{\"distance\":50,\"road\":\"r1\",\"co2\":50,\"location\":50,\"id\":\"v1\",\"class\":1,\"speed\":50,\"status\":\"TRAVELING\"}";
@@ -159,7 +155,7 @@ class VehicleTest {
 	}
 
 	@Test
-	void error_handling() throws InvalidArgumentsException {
+	void error_handling() {
 		
 		// two junctions
 		Junction j1 = new Junction("j1", new RoundRobinStrategy(10), new MoveFirstStrategy(), 0, 0);
