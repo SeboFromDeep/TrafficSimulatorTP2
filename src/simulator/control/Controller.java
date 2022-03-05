@@ -43,7 +43,7 @@ public class Controller {
 			i++;
 		}
 		jo.put("states", ja);
-		p.println(jo.toString());
+		p.print(jo.toString(3));
 	}
 	public void reset() {
 		trafficsimulator.reset();

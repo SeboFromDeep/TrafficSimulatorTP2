@@ -27,7 +27,7 @@ public class TrafficSimulator {
 	
 	public void advance() {
 		//1. increment time
-		time++;
+ 		time++;
 		
 		//2. execute and remove events with time == this.time
 		List<Event> aux = new LinkedList<>();
