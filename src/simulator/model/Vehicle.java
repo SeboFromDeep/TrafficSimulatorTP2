@@ -18,6 +18,7 @@ public class Vehicle extends SimulatedObject {
 	private int totalCO2;
 	private int contClass;
 	private int distance;
+	private int nextJuncIdx;
 	
 
 	Vehicle(String id, int maxSpeed, int contClass, List<Junction> itinerary) throws IllegalArgumentException{
@@ -30,6 +31,7 @@ public class Vehicle extends SimulatedObject {
 			this.distance = 0;
 			this.totalCO2 = 0;
 			this.status = VehicleStatus.PENDING;
+			this.nextJuncIdx = 1;
 			
 		} catch (IllegalArgumentException e) {
 			throw new IllegalArgumentException(e.getMessage());
@@ -82,37 +84,41 @@ public class Vehicle extends SimulatedObject {
 	}
 
 	void moveToNextRoad() {
-		// Case 1: vehicle enters first road of itinerary
-		if(getStatus() == VehicleStatus.PENDING) {
-			try {
-				this.road = itinerary.get(0).roadTo(itinerary.get(1));
-				road.enter(this);
-				location = 0;
+		if (status != VehicleStatus.ARRIVED) {
+			// Case 1: vehicle enters first road of itinerary
+			if(getStatus() == VehicleStatus.PENDING) {
+				try {
+					this.road = itinerary.get(0).roadTo(itinerary.get(nextJuncIdx));
+					nextJuncIdx++;
+					road.enter(this);
+					location = 0;
+					setStatus(VehicleStatus.TRAVELING);
+				}
+				catch (IllegalArgumentException e) {
+					System.out.println(e.getMessage());;
+				}
+			}
+			// Case 2: vehicle exits last road of itinerary
+			else if (road.getDest() == itinerary.get(itinerary.size() - 1)) {
+				road.exit(this);
+				this.road = null;
+				setStatus(VehicleStatus.ARRIVED);
+			}
+			// Case 3: vehicle enters next road of itinerary
+			else {
+				try {
+					Road nextRoad = road.getDest().roadTo(itinerary.get(nextJuncIdx));
+					nextJuncIdx++;
+					road.exit(this);
+					this.road = nextRoad;
+					this.location = 0;
+					road.enter(this);
+				} catch (IllegalArgumentException e) {
+					System.out.println(e.getMessage());;
+				}
+				
 				setStatus(VehicleStatus.TRAVELING);
 			}
-			catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			}
-		}
-		// Case 2: vehicle exits last road of itinerary
-		else if (road.getDest() == itinerary.get(itinerary.size() - 1)) {
-			road.exit(this);
-			this.road = null;
-			setStatus(VehicleStatus.ARRIVED);
-		}
-		// Case 3: vehicle enters next road of itinerary
-		else {
-			try {
-				Road nextRoad = road.getDest().roadTo(road.getDest());
-				road.exit(this);
-				this.road = nextRoad;
-				this.location = 0;
-				road.enter(this);
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			}
-			
-			setStatus(VehicleStatus.TRAVELING);
 		}
 	}
 	

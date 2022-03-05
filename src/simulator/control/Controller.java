@@ -2,6 +2,7 @@ package simulator.control;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +33,7 @@ public class Controller {
 		}
 	}
 	public void run(int n, OutputStream out) throws Exception {
+		PrintStream p = new PrintStream(out);
 		int i = 0;
 		JSONObject jo = new JSONObject();
 		JSONArray ja = new JSONArray();
@@ -41,6 +43,7 @@ public class Controller {
 			i++;
 		}
 		jo.put("states", ja);
+		p.println(jo.toString());
 	}
 	public void reset() {
 		trafficsimulator.reset();
