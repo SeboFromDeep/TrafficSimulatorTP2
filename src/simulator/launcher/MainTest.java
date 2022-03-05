@@ -36,7 +36,7 @@ class MainTest {
 
 	}
 
-	/*@Test
+	@Test
 	void test_2() {
 		assertTrue(run("resources/examples/ex2.json", "resources/tmp/ex2.junit.out.json", "resources/examples/ex2.expout.json",
 				300));
@@ -49,5 +49,5 @@ class MainTest {
 				150));
 
 	}
-*/
+
 }

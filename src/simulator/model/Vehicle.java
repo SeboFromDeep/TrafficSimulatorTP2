@@ -42,26 +42,27 @@ public class Vehicle extends SimulatedObject {
 	//Methods
 	@Override
 	void advance(int time) {
-		// TODO Auto-generated method stub
-		int old_location = location;	// var used to calculate the advanced spaced
-		
-		this.location = Math.min((location + speed), road.getLength());	// recalculate location
-		
-		int advanced_spaced = location - old_location;
-		this.distance += advanced_spaced;
-		
-		int increasedCont = contClass * advanced_spaced;
-		this.totalCO2 += increasedCont;
-		try {
-			road.addContamination(increasedCont);
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		if (location >= road.getLength()) {			// if the vehicle reaches the end of the road:
-			road.getDest().enter(this);			// vehicle enters junction
-			this.setStatus(VehicleStatus.WAITING);	// changes status to waiting
+		if (status == VehicleStatus.TRAVELING) {
+			int old_location = location;	// var used to calculate the advanced spaced
+			
+			this.location = Math.min((location + speed), road.getLength());	// recalculate location
+			
+			int advanced_spaced = location - old_location;
+			this.distance += advanced_spaced;
+			
+			int increasedCont = contClass * advanced_spaced;
+			this.totalCO2 += increasedCont;
+			try {
+				road.addContamination(increasedCont);
+			} catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			if (location >= road.getLength()) {			// if the vehicle reaches the end of the road:
+				road.getDest().enter(this);			// vehicle enters junction
+				this.setStatus(VehicleStatus.WAITING);	// changes status to waiting
+			}	
 		}
 	}
 
