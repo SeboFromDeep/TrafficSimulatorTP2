@@ -9,13 +9,11 @@ import java.util.Arrays;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
-import exception.InvalidArgumentsException;
-import exception.NullWeatherException;
 
 class InterCityRoadTest {
 
 	@Test
-	void test_basic_info() throws NullWeatherException, InvalidArgumentsException {
+	void test_basic_info(){
 		// two junctions
 		Junction j1 = new Junction("j1", new RoundRobinStrategy(10), new MoveFirstStrategy(), 0, 0);
 		Junction j2 = new Junction("j2", new RoundRobinStrategy(10), new MoveFirstStrategy(), 0, 0);
@@ -51,7 +49,7 @@ class InterCityRoadTest {
 
 	// one vehicle overtakes another
 	@Test
-	void test_1() throws NullWeatherException, InvalidArgumentsException {
+	void test_1(){
 
 		// two junctions
 		Junction j1 = new Junction("j1", new RoundRobinStrategy(10), new MoveFirstStrategy(), 0, 0);
@@ -109,7 +107,7 @@ class InterCityRoadTest {
 
 	// list of vehicles is returned as unmodifiable
 	@Test
-	void test_list_of_vehicles_is_readonly() throws InvalidArgumentsException {
+	void test_list_of_vehicles_is_readonly(){
 		// two junctions
 		Junction j1 = new Junction("j1", new RoundRobinStrategy(10), new MoveFirstStrategy(), 0, 0);
 		Junction j2 = new Junction("j2", new RoundRobinStrategy(10), new MoveFirstStrategy(), 0, 0);
@@ -125,7 +123,7 @@ class InterCityRoadTest {
 	}
 
 	@Test
-	void test_report() throws InvalidArgumentsException {//DA FAILURE PERO SI HACES PRINT SON IGUALES	
+	void test_report(){//DA FAILURE PERO SI HACES PRINT SON IGUALES	
 
 		// two junctions
 		Junction j1 = new Junction("j1", new RoundRobinStrategy(10), new MoveFirstStrategy(), 0, 0);
@@ -153,7 +151,7 @@ class InterCityRoadTest {
 	}
 
 	@Test
-	void error_handling() throws InvalidArgumentsException {
+	void error_handling(){
 		// two junctions
 		Junction j1 = new Junction("j1", new RoundRobinStrategy(10), new MoveFirstStrategy(), 0, 0);
 		Junction j2 = new Junction("j2", new RoundRobinStrategy(10), new MoveFirstStrategy(), 0, 0);

@@ -7,13 +7,12 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import exception.InvalidArgumentsException;
 import simulator.misc.Utils;
 
 public class MoveFirstStrategyTest {
 
 	@Test
-	void test_1() throws InvalidArgumentsException {
+	void test_1(){
 		//  junctions
 		Junction j1 = new Junction("j1", new RoundRobinStrategy(10), new MoveFirstStrategy(), 0, 0);
 		Junction j2 = new Junction("j2", new RoundRobinStrategy(10), new MoveFirstStrategy(), 0, 0);
