@@ -16,7 +16,6 @@ public class SetContClassEvent extends Event{
 
 	@Override
 	void execute(RoadMap map) {
-		// TODO Auto-generated method stub
 		for(Pair<String, Integer> i : cs) {
 			Vehicle aux = map.getVehicle(i.getFirst());
 			aux.setContClass(i.getSecond());

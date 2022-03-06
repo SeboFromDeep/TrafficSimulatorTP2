@@ -26,21 +26,17 @@ public class Junction extends SimulatedObject {
 	
 	Junction(String id, LightSwitchingStrategy lsStrategy, DequeingStrategy dqStrategy, int xCoor, int yCoor) throws IllegalArgumentException {
 		super(id);
-		try {
-			validateArguments(id, lsStrategy, dqStrategy, xCoor, yCoor);
-			this.incomingRoads = new ArrayList<Road>();
-			this.outgoingRoads = new HashMap<Junction, Road>();
-			this.queueList = new ArrayList<List<Vehicle>>();
-			this.roadListMap = new HashMap<Road, List<Vehicle>>();
-			this.lsStrat = lsStrategy;
-			this.dqStrat = dqStrategy;
-			this.green = -1;
-			this.lastSwitchingTime = 0;
-			this.x = xCoor;
-			this.y = yCoor;
-		} catch (IllegalArgumentException e) {
-			throw new IllegalArgumentException(e.getMessage());
-		}
+		validateArguments(id, lsStrategy, dqStrategy, xCoor, yCoor);
+		this.incomingRoads = new ArrayList<Road>();
+		this.outgoingRoads = new HashMap<Junction, Road>();
+		this.queueList = new ArrayList<List<Vehicle>>();
+		this.roadListMap = new HashMap<Road, List<Vehicle>>();
+		this.lsStrat = lsStrategy;
+		this.dqStrat = dqStrategy;
+		this.green = -1;
+		this.lastSwitchingTime = 0;
+		this.x = xCoor;
+		this.y = yCoor;
 	}
 
 	//Methods
@@ -54,7 +50,7 @@ public class Junction extends SimulatedObject {
 			}
 		}
 		int lastGreen = green;
-		this.green = lsStrat.chooseNextGreen(incomingRoads, queueList, green, lastSwitchingTime, time);//curTime es time?
+		this.green = lsStrat.chooseNextGreen(incomingRoads, queueList, green, lastSwitchingTime, time);
 		if (green != lastGreen) lastSwitchingTime = time;
 	}
 

@@ -21,12 +21,7 @@ public class NewJunctionEvent extends Event {
 
 	@Override
 	void execute(RoadMap map) {
-		try {
-			map.addJunction(new Junction(id, lsStrat, dqStrat, x, y));
-		} catch (IllegalArgumentException e) {
-			System.out.println(e.getMessage());
-		}
-
+		map.addJunction(new Junction(id, lsStrat, dqStrat, x, y));
 	}
 
 }

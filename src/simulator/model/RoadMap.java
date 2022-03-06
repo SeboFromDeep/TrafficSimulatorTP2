@@ -106,6 +106,7 @@ public class RoadMap {
 		this.junctionMap.clear();
 	}
 	
+	// Auxiliar method used in addVehicle()
 	private boolean invalidItinerary(Vehicle v) {
 		for (int i = 0; i < v.getItinerary().size()-1; i++) {
 			Junction jSrc = v.getItinerary().get(i);

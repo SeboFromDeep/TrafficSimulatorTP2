@@ -52,15 +52,10 @@ public class Vehicle extends SimulatedObject {
 			
 			int increasedCont = contClass * advanced_spaced;
 			this.totalCO2 += increasedCont;
-			try {
-				road.addContamination(increasedCont);
-			} catch (IllegalArgumentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			road.addContamination(increasedCont);
 			
 			if (location >= road.getLength()) {			// if the vehicle reaches the end of the road:
-				road.getDest().enter(this);			// vehicle enters junction
+				road.getDest().enter(this);				// vehicle enters junction
 				this.setStatus(VehicleStatus.WAITING);	// changes status to waiting
 			}	
 		}
@@ -68,7 +63,6 @@ public class Vehicle extends SimulatedObject {
 
 	@Override
 	public JSONObject report() {
-		// TODO Auto-generated method stub
 		JSONObject vehicle = new JSONObject();
 		vehicle.put("id", getId());
 		vehicle.put("speed", getSpeed());
@@ -88,16 +82,11 @@ public class Vehicle extends SimulatedObject {
 		if (status != VehicleStatus.ARRIVED) {
 			// Case 1: vehicle enters first road of itinerary
 			if(getStatus() == VehicleStatus.PENDING) {
-				try {
-					this.road = itinerary.get(0).roadTo(itinerary.get(nextJuncIdx));
-					nextJuncIdx++;
-					road.enter(this);
-					location = 0;
-					setStatus(VehicleStatus.TRAVELING);
-				}
-				catch (IllegalArgumentException e) {
-					System.out.println(e.getMessage());;
-				}
+				this.road = itinerary.get(0).roadTo(itinerary.get(nextJuncIdx));
+				nextJuncIdx++;
+				road.enter(this);
+				location = 0;
+				setStatus(VehicleStatus.TRAVELING);
 			}
 			// Case 2: vehicle exits last road of itinerary
 			else if (road.getDest() == itinerary.get(itinerary.size() - 1)) {
@@ -107,19 +96,14 @@ public class Vehicle extends SimulatedObject {
 			}
 			// Case 3: vehicle enters next road of itinerary
 			else {
-				try {
-					Road nextRoad = road.getDest().roadTo(itinerary.get(nextJuncIdx));
-					nextJuncIdx++;
-					road.exit(this);
-					this.road = nextRoad;
-					this.location = 0;
-					road.enter(this);
-				} catch (IllegalArgumentException e) {
-					System.out.println(e.getMessage());;
-				}
-				
+				Road nextRoad = road.getDest().roadTo(itinerary.get(nextJuncIdx));
+				nextJuncIdx++;
+				road.exit(this);
+				this.road = nextRoad;
+				this.location = 0;
+				road.enter(this);
 				setStatus(VehicleStatus.TRAVELING);
-			}
+				}
 		}
 	}
 	

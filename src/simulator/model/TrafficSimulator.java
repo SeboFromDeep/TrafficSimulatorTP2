@@ -46,7 +46,7 @@ public class TrafficSimulator {
 			j.advance(time);
 		}
 		
-		//a lo mejor nos vendria bien tener un array con pending vehicles para no hacer esto todo el rato
+		//en la siguiente entrega intentaremos mejorar la eficiencia de este paso
 		for (Vehicle v : roadMap.getVehicles()) {
 			if (v.getStatus() == VehicleStatus.PENDING) v.moveToNextRoad();
 		}

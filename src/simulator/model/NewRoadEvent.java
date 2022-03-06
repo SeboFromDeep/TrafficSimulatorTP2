@@ -10,8 +10,7 @@ public abstract class NewRoadEvent extends Event{
 	protected int maxSpeed;
 	protected String id;
 
-	NewRoadEvent(int time, String id, String srcJun, String
-			destJunc, int length, int co2Limit, int maxSpeed, Weather weather) {
+	NewRoadEvent(int time, String id, String srcJun, String destJunc, int length, int co2Limit, int maxSpeed, Weather weather) {
 		super(time);
 		this.src = srcJun;
 		this.dest = destJunc;

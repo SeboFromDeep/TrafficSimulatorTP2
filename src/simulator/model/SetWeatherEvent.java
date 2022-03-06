@@ -16,7 +16,6 @@ public class SetWeatherEvent extends Event{
 
 	@Override
 	void execute(RoadMap map) {
-		// TODO Auto-generated method stub
 		for(Pair<String, Weather> i : ws) {
 			Road aux = map.getRoad(i.getFirst());
 			aux.setWeather(i.getSecond());

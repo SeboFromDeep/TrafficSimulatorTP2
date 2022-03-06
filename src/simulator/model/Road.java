@@ -23,28 +23,19 @@ public abstract class Road extends SimulatedObject {
 
 	Road(String id, Junction srcJunc, Junction destJunc, int maxSpeed, int contLimit, int length, Weather weather) throws IllegalArgumentException{
 		super(id);
-		try {
-			validateArguments(id, srcJunc, destJunc, maxSpeed, contLimit, length, weather);
-		} catch (IllegalArgumentException e) {
-			throw new IllegalArgumentException(e.getMessage());
-		}
-			this.srcJunc = srcJunc;
-			this.destJunc = destJunc;
-			this.maxSpeed = maxSpeed;
-			this.speedLimit = maxSpeed;
-			this.contLimit = contLimit;
-			this.length = length;
-			this.weather = weather;
-			this.totalCont = 0;
-			this.vehicles = new ArrayList<Vehicle>();
-			
-			try {
-				this.srcJunc.addOutGoingRoad(this);
-				this.destJunc.addIncommingRoad(this);
-			} catch (IllegalArgumentException e) {
-				System.out.println(e.getMessage());
-			}
-			
+		validateArguments(id, srcJunc, destJunc, maxSpeed, contLimit, length, weather);
+		this.srcJunc = srcJunc;
+		this.destJunc = destJunc;
+		this.maxSpeed = maxSpeed;
+		this.speedLimit = maxSpeed;
+		this.contLimit = contLimit;
+		this.length = length;
+		this.weather = weather;
+		this.totalCont = 0;
+		this.vehicles = new ArrayList<Vehicle>();
+		
+		this.srcJunc.addOutGoingRoad(this);
+		this.destJunc.addIncommingRoad(this);
 	}
 
 
@@ -59,11 +50,7 @@ public abstract class Road extends SimulatedObject {
 		reduceTotalContamination();
 		updateSpeedLimit();
 		for (Vehicle v : vehicles) {
-			try {
-				v.setSpeed(calculateVehicleSpeed(v));
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			}
+			v.setSpeed(calculateVehicleSpeed(v));
 			v.advance(time);
 		}
 		vehicles.sort(Comparator.comparing(Vehicle::getLocation).reversed());
@@ -87,7 +74,7 @@ public abstract class Road extends SimulatedObject {
 	
 	void enter(Vehicle v) throws IllegalArgumentException{
 		if (v.getLocation() == 0 && v.getSpeed() == 0) vehicles.add(v);
-		else throw new IllegalArgumentException("[ERROR]: vehicle has to have speed 0 and location 0 to enter a Road.");
+		else throw new IllegalArgumentException("[ERROR]: vehicle has to have speed 0 and location 0 in order to enter a Road.");
 	}
 	
 	void exit(Vehicle v) {
@@ -95,12 +82,12 @@ public abstract class Road extends SimulatedObject {
 	}
 	
 	void addContamination(int c) throws IllegalArgumentException{
-		if (c < 0) throw new IllegalArgumentException("[ERROR]: contamination has to be positive");
+		if (c < 0) throw new IllegalArgumentException("[ERROR]: contamination has to be positive.");
 		totalCont += c;
 	}
 	
 	public void setWeather(Weather weather) throws IllegalArgumentException{
-		if (weather == null) throw new IllegalArgumentException("[ERROR]: weather can not be null");
+		if (weather == null) throw new IllegalArgumentException("[ERROR]: weather can not be null.");
 		this.weather = weather;
 	}
 
