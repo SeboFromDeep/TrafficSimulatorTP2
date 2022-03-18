@@ -31,7 +31,7 @@ import simulator.factories.NewVehicleEventBuilder;
 import simulator.factories.RoundRobinStrategyBuilder;
 import simulator.factories.SetContClassEventBuilder;
 import simulator.factories.SetWeatherEventBuilder;
-import simulator.model.DequeingStrategy;
+import simulator.model.DequeuingStrategy;
 import simulator.model.Event;
 import simulator.model.LightSwitchingStrategy;
 import simulator.model.TrafficSimulator;
@@ -44,7 +44,7 @@ public class Main {
 	private static Integer _ticks = 10;
 	private static Factory<Event> _eventsFactory = null;
 	private static Factory<LightSwitchingStrategy> _lsFactory = null;
-	private static Factory<DequeingStrategy> _dqFactory = null;
+	private static Factory<DequeuingStrategy> _dqFactory = null;
 
 	private static void parseArgs(String[] args) {
 
@@ -129,7 +129,7 @@ public class Main {
 		_lsFactory = new BuilderBasedFactory<>(lsbs);
 		
 		//builders de las estrategia de colas
-		List<Builder<DequeingStrategy>> dqbs = new ArrayList<>();
+		List<Builder<DequeuingStrategy>> dqbs = new ArrayList<>();
 		dqbs.add( new MoveFirstStrategyBuilder() );
 		dqbs.add( new MoveAllStrategyBuilder() );
 		_dqFactory = new BuilderBasedFactory<>(dqbs);

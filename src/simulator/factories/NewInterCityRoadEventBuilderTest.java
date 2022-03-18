@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
-import simulator.model.DequeingStrategy;
+import simulator.model.DequeuingStrategy;
 import simulator.model.LightSwitchingStrategy;
 import simulator.model.TrafficSimulator;
 
@@ -22,10 +22,10 @@ class NewInterCityRoadEventBuilderTest {
 		lsbs.add(new MostCrowdedStrategyBuilder());
 		Factory<LightSwitchingStrategy> lssFactory = new BuilderBasedFactory<>(lsbs);
 
-		ArrayList<Builder<DequeingStrategy>> dqbs = new ArrayList<>();
+		ArrayList<Builder<DequeuingStrategy>> dqbs = new ArrayList<>();
 		dqbs.add(new MoveFirstStrategyBuilder());
 		dqbs.add(new MoveAllStrategyBuilder());
-		Factory<DequeingStrategy> dqsFactory = new BuilderBasedFactory<>(dqbs);
+		Factory<DequeuingStrategy> dqsFactory = new BuilderBasedFactory<>(dqbs);
 
 		String inputJson1 = "{\n" + "     \"type\" : \"new_junction\",\n" + "     \"data\" : {\n"
 				+ "     	 \"time\" : 1,\n" + "         \"id\"   : \"j1\",\n" + "      	 \"coor\" : [100,200],\n"

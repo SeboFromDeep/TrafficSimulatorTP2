@@ -8,7 +8,7 @@ import java.util.List;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
-import simulator.model.DequeingStrategy;
+import simulator.model.DequeuingStrategy;
 import simulator.model.Event;
 import simulator.model.Junction;
 import simulator.model.LightSwitchingStrategy;
@@ -32,8 +32,8 @@ class BuilderBasedFactoryTest {
 		return new BuilderBasedFactory<>(lsbs);
 	}
 
-	private static  Factory<DequeingStrategy> createDQSFactory() {
-		ArrayList<Builder<DequeingStrategy>> dqbs = new ArrayList<>();
+	private static  Factory<DequeuingStrategy> createDQSFactory() {
+		ArrayList<Builder<DequeuingStrategy>> dqbs = new ArrayList<>();
 		dqbs.add(new MoveFirstStrategyBuilder());
 		dqbs.add(new MoveAllStrategyBuilder());
 		return new BuilderBasedFactory<>(dqbs);
@@ -103,7 +103,7 @@ class BuilderBasedFactoryTest {
 	
 	@Test
 	void test_6() {
-		Factory<DequeingStrategy> dqsFactory = createDQSFactory();
+		Factory<DequeuingStrategy> dqsFactory = createDQSFactory();
 
 		String inputJSon = "{ \"type\" : \"move_all_dqs\", \"data\" : {\"timeslot\" : 5} }";
 
@@ -112,7 +112,7 @@ class BuilderBasedFactoryTest {
 
 	@Test
 	void test_7() {
-		Factory<DequeingStrategy> dqsFactory = createDQSFactory();
+		Factory<DequeuingStrategy> dqsFactory = createDQSFactory();
 
 		String inputJSon = "{ \"type\" : \"move_all_dqs\", \"data\" : {\"timeslot\" : 5} }";
 
@@ -121,7 +121,7 @@ class BuilderBasedFactoryTest {
 
 	@Test
 	void test_8() {
-		Factory<DequeingStrategy> dqsFactory = createDQSFactory();
+		Factory<DequeuingStrategy> dqsFactory = createDQSFactory();
 
 		String inputJSon = "{ \"type\" : \"move_first_dqs\", \"data\" : {\"timeslot\" : 5} }";
 
@@ -130,7 +130,7 @@ class BuilderBasedFactoryTest {
 
 	@Test
 	void test_9() {
-		Factory<DequeingStrategy> dqsFactory = createDQSFactory();
+		Factory<DequeuingStrategy> dqsFactory = createDQSFactory();
 
 		String inputJSon = "{ \"type\" : \"move_first_dqs\", \"data\" : {\"timeslot\" : 5} }";
 
@@ -139,7 +139,7 @@ class BuilderBasedFactoryTest {
 
 	@Test
 	void test_10() {
-		Factory<DequeingStrategy> dqsFactory = createDQSFactory();
+		Factory<DequeuingStrategy> dqsFactory = createDQSFactory();
 
 		String inputJSon = "{ \"type\" : \"bla\", \"data\" : {\"timeslot\" : 5} }";
 
