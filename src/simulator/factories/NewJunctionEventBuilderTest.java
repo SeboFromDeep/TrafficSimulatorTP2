@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
-import simulator.model.DequeingStrategy;
+import simulator.model.DequeuingStrategy;
 //import simulator.model.DequeuingStrategy;
 import simulator.model.Event;
 import simulator.model.LightSwitchingStrategy;
@@ -27,10 +27,10 @@ class NewJunctionEventBuilderTest {
 		lsbs.add(new MostCrowdedStrategyBuilder());
 		Factory<LightSwitchingStrategy> lssFactory = new BuilderBasedFactory<>(lsbs);
 
-		ArrayList<Builder<DequeingStrategy>> dqbs = new ArrayList<>();
+		ArrayList<Builder<DequeuingStrategy>> dqbs = new ArrayList<>();
 		dqbs.add(new MoveFirstStrategyBuilder());
 		dqbs.add(new MoveAllStrategyBuilder());
-		Factory<DequeingStrategy> dqsFactory = new BuilderBasedFactory<>(dqbs);
+		Factory<DequeuingStrategy> dqsFactory = new BuilderBasedFactory<>(dqbs);
 
 		String inputJson = "{\n" + "     \"type\" : \"new_junction\",\n" + "     \"data\" : {\n"
 				+ "     	 \"time\" : 1,\n" + "         \"id\"   : \"j1\",\n" + "      	 \"coor\" : [100,200],\n"
@@ -58,10 +58,10 @@ class NewJunctionEventBuilderTest {
 		lsbs.add(new MostCrowdedStrategyBuilder());
 		Factory<LightSwitchingStrategy> lssFactory = new BuilderBasedFactory<>(lsbs);
 
-		ArrayList<Builder<DequeingStrategy>> dqbs = new ArrayList<>();
+		ArrayList<Builder<DequeuingStrategy>> dqbs = new ArrayList<>();
 		dqbs.add(new MoveFirstStrategyBuilder());
 		dqbs.add(new MoveAllStrategyBuilder());
-		Factory<DequeingStrategy> dqsFactory = new BuilderBasedFactory<>(dqbs);
+		Factory<DequeuingStrategy> dqsFactory = new BuilderBasedFactory<>(dqbs);
 
 		// error in id
 		String inputJson = "{\n" + "     \"type\" : \"new_junction\",\n" + "     \"data\" : {\n"
@@ -81,10 +81,10 @@ class NewJunctionEventBuilderTest {
 		lsbs.add(new MostCrowdedStrategyBuilder());
 		Factory<LightSwitchingStrategy> lssFactory = new BuilderBasedFactory<>(lsbs);
 
-		ArrayList<Builder<DequeingStrategy>> dqbs = new ArrayList<>();
+		ArrayList<Builder<DequeuingStrategy>> dqbs = new ArrayList<>();
 		dqbs.add(new MoveFirstStrategyBuilder());
 		dqbs.add(new MoveAllStrategyBuilder());
-		Factory<DequeingStrategy> dqsFactory = new BuilderBasedFactory<>(dqbs);
+		Factory<DequeuingStrategy> dqsFactory = new BuilderBasedFactory<>(dqbs);
 
 		// if there is no type field, it should throw an exception (it should be done
 		// automatically by the json library when looking for such field)
@@ -102,10 +102,10 @@ class NewJunctionEventBuilderTest {
 		lsbs.add(new MostCrowdedStrategyBuilder());
 		Factory<LightSwitchingStrategy> lssFactory = new BuilderBasedFactory<>(lsbs);
 
-		ArrayList<Builder<DequeingStrategy>> dqbs = new ArrayList<>();
+		ArrayList<Builder<DequeuingStrategy>> dqbs = new ArrayList<>();
 		dqbs.add(new MoveFirstStrategyBuilder());
 		dqbs.add(new MoveAllStrategyBuilder());
-		Factory<DequeingStrategy> dqsFactory = new BuilderBasedFactory<>(dqbs);
+		Factory<DequeuingStrategy> dqsFactory = new BuilderBasedFactory<>(dqbs);
 
 		// if the type is no new_junction, it should return null
 		String inputJson = "{ \"type\" : \"bla\"}";

@@ -17,14 +17,14 @@ public class Junction extends SimulatedObject {
 	private List<List<Vehicle>> queueList;			//lista de coches de una carretera que esperan en el cruce
 	private Map<Road, List<Vehicle>> roadListMap; 	//mapa para buscar mejor en la lista anterior
 	private LightSwitchingStrategy lsStrat;
-	private DequeingStrategy dqStrat;
+	private DequeuingStrategy dqStrat;
 	private int green;
 	private int lastSwitchingTime;
 	private int x;
 	private int y;
 
 	
-	Junction(String id, LightSwitchingStrategy lsStrategy, DequeingStrategy dqStrategy, int xCoor, int yCoor) throws IllegalArgumentException {
+	Junction(String id, LightSwitchingStrategy lsStrategy, DequeuingStrategy dqStrategy, int xCoor, int yCoor) throws IllegalArgumentException {
 		super(id);
 		validateArguments(id, lsStrategy, dqStrategy, xCoor, yCoor);
 		this.incomingRoads = new ArrayList<Road>();
@@ -138,11 +138,11 @@ public class Junction extends SimulatedObject {
 		this.lsStrat = lsStrat;
 	}
 
-	public DequeingStrategy getDqStrat() {
+	public DequeuingStrategy getDqStrat() {
 		return dqStrat;
 	}
 
-	public void setDqStrat(DequeingStrategy dqStrat) {
+	public void setDqStrat(DequeuingStrategy dqStrat) {
 		this.dqStrat = dqStrat;
 	}
 
@@ -178,7 +178,7 @@ public class Junction extends SimulatedObject {
 		this.y = y;
 	}
 	
-	public void validateArguments(String id, LightSwitchingStrategy lsStrategy, DequeingStrategy dqStrategy, int xCoor, int yCoor) throws IllegalArgumentException{
+	public void validateArguments(String id, LightSwitchingStrategy lsStrategy, DequeuingStrategy dqStrategy, int xCoor, int yCoor) throws IllegalArgumentException{
 		if (id == null || id == "") throw new IllegalArgumentException("[ERROR]: id can not be null or an empty string.");
 		if (lsStrategy == null || dqStrategy == null) throw new IllegalArgumentException("[ERROR]: can not have a null LightSwitchingStrategy or DequeingStrategy.");
 		if (xCoor < 0 || yCoor < 0)	throw new IllegalArgumentException("[ERROR]: xCoor and yCoor have to be a positive integer");

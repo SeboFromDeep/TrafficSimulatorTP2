@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
-import simulator.model.DequeingStrategy;
+import simulator.model.DequeuingStrategy;
 import simulator.model.MoveFirstStrategy;
 
 class MoveFirstStrategyBuilderTest {
@@ -15,7 +15,7 @@ class MoveFirstStrategyBuilderTest {
 		MoveFirstStrategyBuilder eb = new MoveFirstStrategyBuilder();
 		
 		String inputJSon = " { \"type\" : \"move_first_dqs\",  \"data\" : {} }";
-		DequeingStrategy o = eb.createInstance(new JSONObject(inputJSon));
+		DequeuingStrategy o = eb.createInstance(new JSONObject(inputJSon));
 		assertTrue( o instanceof MoveFirstStrategy );
 		
 	}
@@ -25,7 +25,7 @@ class MoveFirstStrategyBuilderTest {
 		MoveFirstStrategyBuilder eb = new MoveFirstStrategyBuilder();
 		
 		String inputJSon = " { \"type\" : \"move_first_dqs\" }";
-		DequeingStrategy o = eb.createInstance(new JSONObject(inputJSon));
+		DequeuingStrategy o = eb.createInstance(new JSONObject(inputJSon));
 		assertTrue( o instanceof MoveFirstStrategy );
 		
 	}
