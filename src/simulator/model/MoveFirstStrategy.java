@@ -3,7 +3,7 @@ package simulator.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MoveFirstStrategy implements DequeuingStrategy{
+public class MoveFirstStrategy implements DequeingStrategy{
 
 	@Override
 	public List<Vehicle> dequeue(List<Vehicle> q) {

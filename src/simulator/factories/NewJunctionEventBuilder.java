@@ -2,7 +2,7 @@ package simulator.factories;
 
 import org.json.JSONObject;
 
-import simulator.model.DequeuingStrategy;
+import simulator.model.DequeingStrategy;
 import simulator.model.Event;
 import simulator.model.LightSwitchingStrategy;
 import simulator.model.NewJunctionEvent;
@@ -10,9 +10,9 @@ import simulator.model.NewJunctionEvent;
 public class NewJunctionEventBuilder extends Builder<Event>{
 
 	private Factory<LightSwitchingStrategy> lssFactory;
-	private Factory<DequeuingStrategy> dqsFactory;
+	private Factory<DequeingStrategy> dqsFactory;
 	
-	public NewJunctionEventBuilder(Factory<LightSwitchingStrategy> lssFactory, Factory<DequeuingStrategy> dqsFactory) {
+	public NewJunctionEventBuilder(Factory<LightSwitchingStrategy> lssFactory, Factory<DequeingStrategy> dqsFactory) {
 		super("new_junction");
 		this.lssFactory = lssFactory;
 		this.dqsFactory = dqsFactory;
@@ -29,7 +29,7 @@ public class NewJunctionEventBuilder extends Builder<Event>{
 		LightSwitchingStrategy lsStrat = lssFactory.createInstance(lsStratJson);
 		
 		JSONObject dqStratJson = data.getJSONObject("dq_strategy");
-		DequeuingStrategy dqStrat = dqsFactory.createInstance(dqStratJson);
+		DequeingStrategy dqStrat = dqsFactory.createInstance(dqStratJson);
 		
 		return new NewJunctionEvent(time, id, lsStrat, dqStrat, x, y);
 	}

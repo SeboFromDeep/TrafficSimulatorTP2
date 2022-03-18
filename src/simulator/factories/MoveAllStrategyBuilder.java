@@ -2,17 +2,17 @@ package simulator.factories;
 
 import org.json.JSONObject;
 
-import simulator.model.DequeuingStrategy;
+import simulator.model.DequeingStrategy;
 import simulator.model.MoveAllStrategy;
 
-public class MoveAllStrategyBuilder extends Builder<DequeuingStrategy> {
+public class MoveAllStrategyBuilder extends Builder<DequeingStrategy> {
 
 	public MoveAllStrategyBuilder() {
 		super("move_all_dqs");
 	}
 
 	@Override
-	protected DequeuingStrategy createTheInstance(JSONObject data) {
+	protected DequeingStrategy createTheInstance(JSONObject data) {
 		return new MoveAllStrategy();
 	}
 

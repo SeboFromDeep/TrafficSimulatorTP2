@@ -5,11 +5,11 @@ public class NewJunctionEvent extends Event {
 	
 	private String id;
 	private LightSwitchingStrategy lsStrat;
-	private DequeuingStrategy dqStrat;
+	private DequeingStrategy dqStrat;
 	private int x;
 	private int y;
 
-	public NewJunctionEvent(int time, String id, LightSwitchingStrategy lsStrategy, DequeuingStrategy dqStrategy, int xCoor, int yCoor) {
+	public NewJunctionEvent(int time, String id, LightSwitchingStrategy lsStrategy, DequeingStrategy dqStrategy, int xCoor, int yCoor) {
 		super(time);
 		this.id = id;
 		this.lsStrat = lsStrategy;
