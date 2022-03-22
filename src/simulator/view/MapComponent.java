@@ -84,8 +84,8 @@ public class MapComponent extends JPanel implements TrafficSimObserver {
 
 			// choose a color for the arrow depending on the traffic light of the road
 			Color arrowColor = _RED_LIGHT_COLOR;
-			int idx = r.getDest().getGreenLightIndex();
-			if (idx != -1 && r.equals(r.getDest().getInRoads().get(idx))) {
+			int idx = r.getDest().getGreen();
+			if (idx != -1 && r.equals(r.getDest().getIncomingRoads().get(idx))) {
 				arrowColor = _GREEN_LIGHT_COLOR;
 			}
 
@@ -104,7 +104,7 @@ public class MapComponent extends JPanel implements TrafficSimObserver {
 	}
 
 	private void drawVehicles(Graphics g) {
-		for (Vehicle v : _map.getVehilces()) {
+		for (Vehicle v : _map.getVehicles()) {
 			if (v.getStatus() != VehicleStatus.ARRIVED) {
 
 				Road r = v.getRoad();

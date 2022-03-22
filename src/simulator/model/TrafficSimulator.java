@@ -9,7 +9,7 @@ import org.json.JSONObject;
 
 import simulator.misc.SortedArrayList;
 
-public class TrafficSimulator {
+public class TrafficSimulator implements Observable<TrafficSimObserver>{
 	
 	private RoadMap roadMap;
 	private List<Event> events;
@@ -68,5 +68,17 @@ public class TrafficSimulator {
 		this.events.clear();
 		this.roadMap.reset();
 		this.time = 0;
+	}
+
+	@Override
+	public void addObserver(TrafficSimObserver o) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeObserver(TrafficSimObserver o) {
+		// TODO Auto-generated method stub
+		
 	}
 }
