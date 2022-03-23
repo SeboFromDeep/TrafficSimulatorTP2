@@ -1,5 +1,6 @@
 package simulator.model;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -14,11 +15,13 @@ public class TrafficSimulator implements Observable<TrafficSimObserver>{
 	private RoadMap roadMap;
 	private List<Event> events;
 	private int time;
+	private List<TrafficSimObserver> observers;
 
 	public TrafficSimulator() {
 		this.roadMap = new RoadMap();
 		this.events = new SortedArrayList<Event>(Comparator.comparing(Event::getTime));
 		this.time = 0;
+		this.observers = new ArrayList<TrafficSimObserver>();
 	}
 	
 	public void addEvent(Event e) {
@@ -72,13 +75,11 @@ public class TrafficSimulator implements Observable<TrafficSimObserver>{
 
 	@Override
 	public void addObserver(TrafficSimObserver o) {
-		// TODO Auto-generated method stub
-		
+		observers.add(o);
 	}
 
 	@Override
 	public void removeObserver(TrafficSimObserver o) {
-		// TODO Auto-generated method stub
-		
+		observers.remove(o);
 	}
 }
