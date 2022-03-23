@@ -51,13 +51,13 @@ public class Controller {
 	}
 	
 	public void addObserver(TrafficSimObserver o) {
-		// TODO
+		trafficsimulator.addObserver(o);
 	}
 	public void removeObserver(TrafficSimObserver o) {
-		// TODO
+		trafficsimulator.removeObserver(o);
 	}
 	public void addEvent(Event e) {
-		// TODO
+		trafficsimulator.addEvent(e);
 	}
 	
 }
