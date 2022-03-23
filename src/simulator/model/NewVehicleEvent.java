@@ -31,5 +31,8 @@ public class NewVehicleEvent extends Event{
 		Vehicle v = new Vehicle(id, MaxSpeed, ContClass, l);
 		map.addVehicle(v);
 	}
-
+	
+	public String toString() {
+		return String.format("New Vehicle '%s'", id);
+	}
 }

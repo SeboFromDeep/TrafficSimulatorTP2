@@ -21,4 +21,12 @@ public class SetWeatherEvent extends Event{
 			aux.setWeather(i.getSecond());
 		}
 	}
+	
+	public String toString() {
+		String s = "";
+		for (Pair<String, Weather> pair : ws) {
+			s += String.format("Weather of '%s' changed to %s", pair.getFirst(), pair.getSecond().toString());
+		}
+		return s;
+	}
 }

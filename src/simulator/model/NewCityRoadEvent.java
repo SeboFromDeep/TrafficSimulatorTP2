@@ -16,5 +16,8 @@ public class NewCityRoadEvent extends NewRoadEvent{
 		map.addRoad(r);
 	}
 
+	public String toString() {
+		return String.format("New City Road '%s'", id);
+	}
 }
 

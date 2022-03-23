@@ -21,5 +21,13 @@ public class SetContClassEvent extends Event{
 			aux.setContClass(i.getSecond());
 		}
 	}
+	
+	public String toString() {
+		String s = "";
+		for (Pair<String, Integer> pair : cs) {
+			s += String.format("ContClass of '%s' changed to %d\n", pair.getFirst(), pair.getSecond());
+		}
+		return s;
+	}
 }
 

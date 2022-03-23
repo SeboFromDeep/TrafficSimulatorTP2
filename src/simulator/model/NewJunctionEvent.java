@@ -24,4 +24,7 @@ public class NewJunctionEvent extends Event {
 		map.addJunction(new Junction(id, lsStrat, dqStrat, x, y));
 	}
 
+	public String toString() {
+		return String.format("New Junction '%s'", id);
+	}
 }
