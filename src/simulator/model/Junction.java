@@ -183,4 +183,13 @@ public class Junction extends SimulatedObject {
 		if (lsStrategy == null || dqStrategy == null) throw new IllegalArgumentException("[ERROR]: can not have a null LightSwitchingStrategy or DequeingStrategy.");
 		if (xCoor < 0 || yCoor < 0)	throw new IllegalArgumentException("[ERROR]: xCoor and yCoor have to be a positive integer");
 	}
+	
+	public int getGreenLightIndex() {
+		return this.green;
+	}
+
+	public List<Road> getInRoads() {
+		// TODO Auto-generated method stub
+		return this.incomingRoads;
+	}
 }
