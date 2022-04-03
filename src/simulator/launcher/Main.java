@@ -65,6 +65,11 @@ public class Main {
 			parseHelpOption(line, cmdLineOptions);
 			parseInFileOption(line);
 			parseOutFileOption(line);
+			try {
+				parseModeOption(line);
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
 			parseTickOption(line);
 
 			// if there are some remaining arguments, then something wrong is
@@ -115,7 +120,6 @@ public class Main {
 		}
 		else {
 			_modeSelected = "GUI";
-			
 		}
 	}
 
@@ -217,7 +221,8 @@ public class Main {
 	private static void start(String[] args) throws Exception {
 		initFactories();
 		parseArgs(args);
-		startBatchMode();
+		if (_modeSelected == "GUI") startGUIMode();
+		else startBatchMode();
 	}
 
 	// example command lines:
