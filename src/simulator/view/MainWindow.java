@@ -52,19 +52,19 @@ public class MainWindow extends JFrame {
 				TitledBorder.TOP));
 		tablesPanel.add(eventsView);
 		
-		JPanel Vehicles =createViewPanel(new JTable(new EventsTableModel(_ctrl)), "Vehicles");
+		JPanel Vehicles =createViewPanel(new JTable(new RoadsTableModel(_ctrl)), "Vehicles");
 		Vehicles.setPreferredSize(new Dimension(500, 200));
 		Vehicles.setBorder(BorderFactory.createTitledBorder(_defaultBorder, "Vehicles", TitledBorder.LEFT,
 				TitledBorder.TOP));
 		tablesPanel.add(Vehicles);
 
-		JPanel Roads =createViewPanel(new JTable(new EventsTableModel(_ctrl)), "Roads");
+		JPanel Roads =createViewPanel(new JTable(new VehiclesTableModel(_ctrl)), "Roads");
 		Roads.setPreferredSize(new Dimension(500, 200));
 		Roads.setBorder(BorderFactory.createTitledBorder(_defaultBorder, "Roads", TitledBorder.LEFT,
 				TitledBorder.TOP));
 		tablesPanel.add(Roads);
 		
-		JPanel Junctions =createViewPanel(new JTable(new EventsTableModel(_ctrl)), "Junctions");
+		JPanel Junctions =createViewPanel(new JTable(new JunctionsTableModel(_ctrl)), "Junctions");
 		Junctions.setPreferredSize(new Dimension(500, 200));
 		Junctions.setBorder(BorderFactory.createTitledBorder(_defaultBorder, "Junctions", TitledBorder.LEFT,
 				TitledBorder.TOP));

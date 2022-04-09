@@ -26,11 +26,14 @@ public class TrafficSimulator implements Observable<TrafficSimObserver>{
 	
 	public void addEvent(Event e) {
 		events.add(e);
+		notifyOnEventAdded(e);
 	}
 	
 	public void advance() {
 		//1. increment time
  		time++;
+ 		
+ 		notifyOnAdvanceStart();
 		
 		//2. execute and remove events with time == this.time
 		List<Event> aux = new LinkedList<>();
@@ -58,6 +61,8 @@ public class TrafficSimulator implements Observable<TrafficSimObserver>{
 		for (Road r : roadMap.getRoads()) {
 			r.advance(time);
 		}
+		
+		notifyOnAdvanceEnd();
 	}
 
 	public JSONObject report() {
@@ -81,5 +86,23 @@ public class TrafficSimulator implements Observable<TrafficSimObserver>{
 	@Override
 	public void removeObserver(TrafficSimObserver o) {
 		observers.remove(o);
+	}
+	
+	public void notifyOnAdvanceStart() {
+		for (TrafficSimObserver o : observers) {
+			o.onAdvanceStart(roadMap, events, time);
+		}
+	}
+	
+	public void notifyOnAdvanceEnd() {
+		for (TrafficSimObserver o : observers) {
+			o.onAdvanceEnd(roadMap, events, time);
+		}
+	}
+	
+	public void notifyOnEventAdded(Event e) {
+		for (TrafficSimObserver o : observers) {
+			o.onEventAdded(roadMap, events, e, time);
+		}
 	}
 }

@@ -1,5 +1,6 @@
 package simulator.view;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
@@ -11,32 +12,52 @@ import simulator.model.TrafficSimObserver;
 
 public class EventsTableModel extends AbstractTableModel implements TrafficSimObserver{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	private String[] colNames;
+	List<Event> events;
+
 	public EventsTableModel(Controller _ctrl) {
-		// TODO Auto-generated constructor stub
+		this.colNames = new String[] {"Time", "Desc."};
+		this.events = new ArrayList<Event>();
+		_ctrl.addObserver(this);
 	}
 
 	@Override
 	public int getRowCount() {
-		// TODO Auto-generated method stub
-		return 0;
+		return events != null ? events.size() : 0;
 	}
 
 	@Override
 	public int getColumnCount() {
-		// TODO Auto-generated method stub
-		return 0;
+		return colNames.length;
+	}
+	
+	@Override
+	public String getColumnName(int col) {
+		return colNames[col];
 	}
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		// TODO Auto-generated method stub
-		return null;
+		if (columnIndex == 0) {
+			return ((Event) events.get(rowIndex)).getTime();
+		} else {
+			return ((Event) events.get(rowIndex)).toString();
+		}
 	}
 
 	@Override
 	public void onAdvanceStart(RoadMap map, List<Event> events, int time) {
-		// TODO Auto-generated method stub
-		
+		for (Event event : events) {
+			//if(event.getTime() > time) {
+			//	removeEvent(event);
+			//}
+		}
+		this.events = events;
 	}
 
 	@Override
@@ -47,14 +68,13 @@ public class EventsTableModel extends AbstractTableModel implements TrafficSimOb
 
 	@Override
 	public void onEventAdded(RoadMap map, List<Event> events, Event e, int time) {
-		// TODO Auto-generated method stub
-		
+		this.events = events;
+		this.fireTableStructureChanged();
 	}
 
 	@Override
 	public void onReset(RoadMap map, List<Event> events, int time) {
-		// TODO Auto-generated method stub
-		
+		events = new ArrayList<Event>();
 	}
 
 	@Override
@@ -67,6 +87,14 @@ public class EventsTableModel extends AbstractTableModel implements TrafficSimOb
 	public void onError(String err) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public void addEvent(Event e) {
+		events.add(e);
+	}
+	
+	public void removeEvent(Event e) {
+		events.remove(e);
 	}
 
 }
