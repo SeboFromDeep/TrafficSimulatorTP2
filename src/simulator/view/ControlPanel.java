@@ -49,6 +49,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 		// TODO Auto-generated constructor stub
 		this.ctrl = _ctrl;
 		initGUI();
+		ctrl.addObserver(this);
 	}
 	
 	private void initGUI() {
@@ -104,6 +105,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				System.out.println("Run");
+				run_sim(10);
 			}
 		});
 		
@@ -130,7 +132,6 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				close();
 			}
 		});
@@ -260,9 +261,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 		}
 		
 	}
-	private void play() {
-		
-	}
+	
 	private void close() {
 		int n = JOptionPane.showConfirmDialog(null,"Are you sure you want to go out?", "EXIT", JOptionPane.YES_NO_OPTION);
 		if(n == 0) {

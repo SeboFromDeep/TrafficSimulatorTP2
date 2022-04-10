@@ -61,8 +61,10 @@ public class Controller {
 	}
 	
 	public void run(Integer _ticks) {
-		// TODO Auto-generated method stub
-		
+		for (int i = 0; i < _ticks; i++) {
+			trafficsimulator.advance();
+			System.out.println(trafficsimulator.report());
+		}
 	}
 	
 }
