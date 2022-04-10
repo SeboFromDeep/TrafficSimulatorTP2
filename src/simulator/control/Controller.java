@@ -60,4 +60,9 @@ public class Controller {
 		trafficsimulator.addEvent(e);
 	}
 	
+	public void run(Integer _ticks) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 }
