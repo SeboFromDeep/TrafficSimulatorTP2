@@ -66,6 +66,7 @@ public class EventsTableModel extends AbstractTableModel implements TrafficSimOb
 	@Override
 	public void onEventAdded(RoadMap map, List<Event> events, Event e, int time) {
 		events.add(e);
+		this.fireTableDataChanged();
 	}
 
 	@Override
