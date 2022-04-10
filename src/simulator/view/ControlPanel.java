@@ -44,6 +44,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 	private JButton offButton;
 	private boolean _stopped;
 	private CO2Dialogo dialog;
+	private JSpinner spinner;
 
 	public ControlPanel(Controller _ctrl) {
 		// TODO Auto-generated constructor stub
@@ -103,9 +104,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Run");
-				run_sim(10);
+				play();
 			}
 		});
 		
@@ -123,7 +122,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 		});
 		
 		JLabel ticksLabel = new JLabel("Ticks: ");
-		JSpinner spinner = new JSpinner(new SpinnerNumberModel(10, 1, 10000, 1));
+		spinner = new JSpinner(new SpinnerNumberModel(10, 1, 10000, 1));
 		
 		
 		offButton = new JButton(new ImageIcon("resources/icons/exit.png"));
@@ -267,6 +266,12 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 		if(n == 0) {
 			System.exit(0);
 		}
+	}
+	
+	public void play() {
+		int ticks = (int) this.spinner.getValue();
+		System.out.println(String.format("Running %d ticks", ticks));
+		run_sim(ticks);
 	}
 
 }
