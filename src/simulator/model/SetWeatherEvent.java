@@ -23,10 +23,12 @@ public class SetWeatherEvent extends Event{
 	}
 	
 	public String toString() {
-		String s = "";
+		String s = "Change Weather: [";
 		for (Pair<String, Weather> pair : ws) {
-			s += String.format("Weather of '%s' changed to %s", pair.getFirst(), pair.getSecond().toString());
+			s += String.format("(%s, %s)", pair.getFirst(), pair.getSecond().toString());
+			if (ws.indexOf(pair) < ws.size()-1) s += ", ";
 		}
+		s += "]";
 		return s;
 	}
 }

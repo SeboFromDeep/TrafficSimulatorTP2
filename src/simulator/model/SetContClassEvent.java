@@ -23,10 +23,12 @@ public class SetContClassEvent extends Event{
 	}
 	
 	public String toString() {
-		String s = "";
+		String s = "Change CO2 class: [";
 		for (Pair<String, Integer> pair : cs) {
-			s += String.format("ContClass of '%s' changed to %d\n", pair.getFirst(), pair.getSecond());
+			s += String.format("(%s, %d)", pair.getFirst(), pair.getSecond());
+			if (cs.indexOf(pair) < cs.size()-1) s += ", ";
 		}
+		s += "]";
 		return s;
 	}
 }
