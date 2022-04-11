@@ -76,11 +76,13 @@ public class TrafficSimulator implements Observable<TrafficSimObserver>{
 		this.events.clear();
 		this.roadMap.reset();
 		this.time = 0;
+		notifyOnReset();
 	}
 
 	@Override
 	public void addObserver(TrafficSimObserver o) {
 		observers.add(o);
+		notifyOnRegister();
 	}
 
 	@Override
@@ -103,6 +105,24 @@ public class TrafficSimulator implements Observable<TrafficSimObserver>{
 	public void notifyOnEventAdded(Event e) {
 		for (TrafficSimObserver o : observers) {
 			o.onEventAdded(roadMap, events, e, time);
+		}
+	}
+	
+	public void notifyOnReset() {
+		for (TrafficSimObserver o : observers) {
+			o.onReset(roadMap, events, time);
+		}
+	}
+	
+	public void notifyOnRegister() {
+		for (TrafficSimObserver o : observers) {
+			o.onRegister(roadMap, events, time);
+		}
+	}
+	
+	public void notifyError(String message) {
+		for (TrafficSimObserver o : observers) {
+			o.onError(message);
 		}
 	}
 }
