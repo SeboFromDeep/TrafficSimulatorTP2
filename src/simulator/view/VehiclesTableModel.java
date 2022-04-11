@@ -93,8 +93,7 @@ public class VehiclesTableModel extends AbstractTableModel implements TrafficSim
 
 	@Override
 	public void onReset(RoadMap map, List<Event> events, int time) {
-		this.vehicles = new ArrayList<Vehicle>();
-		
+		this.vehicles = new ArrayList<Vehicle>();		
 	}
 
 	@Override
