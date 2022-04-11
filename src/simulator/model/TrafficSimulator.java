@@ -1,6 +1,8 @@
 package simulator.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -89,7 +91,7 @@ public class TrafficSimulator implements Observable<TrafficSimObserver>{
 	public void removeObserver(TrafficSimObserver o) {
 		observers.remove(o);
 	}
-	
+
 	public void notifyOnAdvanceStart() {
 		for (TrafficSimObserver o : observers) {
 			o.onAdvanceStart(roadMap, events, time);
@@ -124,5 +126,13 @@ public class TrafficSimulator implements Observable<TrafficSimObserver>{
 		for (TrafficSimObserver o : observers) {
 			o.onError(message);
 		}
+	}
+	
+	public List<Event> getEvents() {
+		return Collections.unmodifiableList(events);
+	}
+
+	public List<Vehicle> getVehicles() {
+		return roadMap.getVehicles();
 	}
 }

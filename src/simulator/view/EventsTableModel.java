@@ -22,7 +22,7 @@ public class EventsTableModel extends AbstractTableModel implements TrafficSimOb
 
 	public EventsTableModel(Controller _ctrl) {
 		this.colNames = new String[] {"Time", "Desc."};
-		this.events = new ArrayList<Event>();
+		this.events = _ctrl.getEvents();
 		_ctrl.addObserver(this);
 	}
 
@@ -44,9 +44,9 @@ public class EventsTableModel extends AbstractTableModel implements TrafficSimOb
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		if (columnIndex == 0) {
-			return ((Event) events.get(rowIndex)).getTime();
+			return events.get(rowIndex).getTime();
 		} else {
-			return ((Event) events.get(rowIndex)).toString();
+			return events.get(rowIndex).toString();
 		}
 	}
 

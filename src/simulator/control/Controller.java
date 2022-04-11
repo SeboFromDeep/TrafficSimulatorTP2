@@ -14,6 +14,7 @@ import simulator.factories.Factory;
 import simulator.model.Event;
 import simulator.model.TrafficSimObserver;
 import simulator.model.TrafficSimulator;
+import simulator.model.Vehicle;
 
 public class Controller {
 	
@@ -67,4 +68,11 @@ public class Controller {
 		}
 	}
 	
+	public List<Event> getEvents(){
+		return trafficsimulator.getEvents();
+	}
+	
+	public List<Vehicle> getVehicles(){
+		return trafficsimulator.getVehicles();
+	}
 }
