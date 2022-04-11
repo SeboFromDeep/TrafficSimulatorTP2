@@ -135,4 +135,8 @@ public class TrafficSimulator implements Observable<TrafficSimObserver>{
 	public List<Vehicle> getVehicles() {
 		return roadMap.getVehicles();
 	}
+
+	public List<Road> getRoads() {
+		return roadMap.getRoads();
+	}
 }

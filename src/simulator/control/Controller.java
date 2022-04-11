@@ -12,6 +12,7 @@ import org.json.JSONTokener;
 
 import simulator.factories.Factory;
 import simulator.model.Event;
+import simulator.model.Road;
 import simulator.model.TrafficSimObserver;
 import simulator.model.TrafficSimulator;
 import simulator.model.Vehicle;
@@ -74,5 +75,8 @@ public class Controller {
 	
 	public List<Vehicle> getVehicles(){
 		return trafficsimulator.getVehicles();
+	}
+	public List<Road> getRoads() {
+		return trafficsimulator.getRoads();
 	}
 }
