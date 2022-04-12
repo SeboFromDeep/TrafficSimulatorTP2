@@ -115,9 +115,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				_stopped = true;
-				enableButtons(true);
+				stop();
 			}
 		});
 		
@@ -149,42 +147,8 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 		barra.add(offButton);
 		this.add(barra);
 	}
-	
-	private void enableButtons(boolean b) {
-		stopButton.setEnabled(!b);
-		playButton.setEnabled(b);
-		loadButton.setEnabled(b);
-		CO2Button.setEnabled(b);
-		weatherButton.setEnabled(b);
-		offButton.setEnabled(b);
-	}
-	
-	private void run_sim(int n) {
-		if (n > 0 && !_stopped) {
-			try {
-				ctrl.run(1);
-			} catch (Exception e) {
-			// TODO show error message
-				_stopped = true;
-				enableButtons(true);
-				return;
-			}
-			SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					run_sim(n - 1);
-				}
-			});
-		} else {
-			enableButtons(true);
-			_stopped = true;
-		}
-	}
-	
-	private void stop() {
-		_stopped = true;
-	}
 
+	// INTERFACE METHODS
 	@Override
 	public void onAdvanceStart(RoadMap map, List<Event> events, int time) {
 		// TODO Auto-generated method stub
@@ -221,6 +185,35 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 		
 	}
 	
+	// 	ADITIONAL METHODS
+	private void enableButtons(boolean b) {
+		stopButton.setEnabled(!b);
+		playButton.setEnabled(b);
+		loadButton.setEnabled(b);
+		CO2Button.setEnabled(b);
+		weatherButton.setEnabled(b);
+		offButton.setEnabled(b);
+	}
+	
+	private void load() throws JSONException, Exception {
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.showOpenDialog(fileChooser);
+		File f = fileChooser.getSelectedFile();
+		if(f != null) {
+			InputStream in = new FileInputStream(f) ;
+			ctrl.loadEvents(in);
+			in.close();
+		}
+		
+	}
+	
+	private void close() {
+		int n = JOptionPane.showConfirmDialog(null,"Are you sure you want to go out?", "EXIT", JOptionPane.YES_NO_OPTION);
+		if(n == 0) {
+			System.exit(0);
+		}
+	}
+	
 	private void changeCO2() {
 		dialog = new CO2Dialogo((Frame)SwingUtilities.getWindowAncestor(this));
 
@@ -249,29 +242,41 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 		}*/
 		dialog = null;
 	}
-	private void load() throws JSONException, Exception {
-		JFileChooser fileChooser = new JFileChooser();
-		fileChooser.showOpenDialog(fileChooser);
-		File f = fileChooser.getSelectedFile();
-		if(f != null) {
-			InputStream in = new FileInputStream(f) ;
-			ctrl.loadEvents(in);
-			in.close();
-		}
-		
-	}
 	
-	private void close() {
-		int n = JOptionPane.showConfirmDialog(null,"Are you sure you want to go out?", "EXIT", JOptionPane.YES_NO_OPTION);
-		if(n == 0) {
-			System.exit(0);
+	private void run_sim(int n) {
+		if (n > 0 && !_stopped) {
+			try {
+				ctrl.run(1);
+			} catch (Exception e) {
+			// TODO show error message
+				_stopped = true;
+				enableButtons(true);
+				return;
+			}
+			SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					run_sim(n - 1);
+				}
+			});
+		} else {
+			enableButtons(true);
+			_stopped = true;
 		}
 	}
 	
 	public void play() {
 		int ticks = (int) this.spinner.getValue();
 		System.out.println(String.format("Running %d ticks", ticks));
+		enableButtons(false);
+		_stopped = false;
 		run_sim(ticks);
+	}
+	
+	private void stop() {
+		_stopped = true;
+		enableButtons(true);
+		System.out.println("Simulation stopped");
 	}
 
 }
