@@ -1,6 +1,7 @@
 package simulator.view;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
@@ -8,8 +9,10 @@ import javax.swing.table.AbstractTableModel;
 import simulator.control.Controller;
 import simulator.model.Event;
 import simulator.model.Junction;
+import simulator.model.Road;
 import simulator.model.RoadMap;
 import simulator.model.TrafficSimObserver;
+import simulator.model.Vehicle;
 
 public class JunctionsTableModel extends AbstractTableModel implements TrafficSimObserver{
 
@@ -101,6 +104,14 @@ public class JunctionsTableModel extends AbstractTableModel implements TrafficSi
 	private String formatQueueList(int rowIndex, int columnIndex) {
 		//TODO
 		String s = "";
+		for (int i = 0; i < junctions.get(rowIndex).getIncomingRoads().size(); i++){
+			s += junctions.get(rowIndex).getIncomingRoads().get(i).getId() + ":[";
+			for (Vehicle v : junctions.get(rowIndex).getQueueList().get(i)) {
+				s += v.getId();
+				if (junctions.get(rowIndex).getQueueList().get(i).indexOf(v) < junctions.get(rowIndex).getQueueList().get(i).size()-1) s += ", ";
+			}
+			s += "] ";
+		}
 		return s;
 	}
 
