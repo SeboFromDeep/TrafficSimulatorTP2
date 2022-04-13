@@ -8,6 +8,7 @@ import java.awt.Image;
 import java.awt.RenderingHints;
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -21,6 +22,8 @@ import simulator.model.Junction;
 import simulator.model.Road;
 import simulator.model.RoadMap;
 import simulator.model.TrafficSimObserver;
+import simulator.model.Vehicle;
+import simulator.model.VehicleStatus;
 
 public class MapByRoadComponent extends JComponent implements TrafficSimObserver{
 
@@ -59,20 +62,44 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 	
 	private void drawMap(Graphics2D g) {
 		drawRoads(g);
-		drawVehicles(g);
 	}
-	private void drawVehicles(Graphics2D g) {
-		// TODO Auto-generated method stub
+	private void drawVehicles(Graphics g, Road r, int y) {
+		for (Vehicle v: r.getVehicles()) {
+			if (v.getStatus() != VehicleStatus.ARRIVED) {
+				int x1 = 50, x2 = getWidth() - 100;
+				int x = x1 + (int) ((x2 - x1) * ((double) v.getLocation() / (double) r.getLength()));
+				g.drawImage(_car, x, y - 8, 16, 16, this);
+			}
+			
+		}
 		
 	}
 	private void drawRoads(Graphics2D g) {
 		for (int i = 0; i < _map.getRoads().size(); i++) {
 			int x1 = 50, x2 = getWidth() - 100, y = (i + 1) * 50;
+			Road r = _map.getRoads().get(i);
+			
 			g.setColor(Color.BLACK);
+			
 			g.drawLine(x1, y, x2, y);
+			g.drawString(r.getId(), x1 - 30, y + 4);
+			
+			g.setColor(new Color(200, 100, 0));
+			g.drawString(r.getSrc().getId(), x1 - 4, y - 6);
+			
+			g.drawString(r.getDest().getId(), x2 - 4, y - 6);
+			
+			g.setColor(Color.BLUE);
+			g.fillOval(x1 - 5, y- 5, 10, 10);
+			
+			if (r.getDest().getGreen() == i) g.setColor(Color.GREEN);
+			else g.setColor(Color.RED);
+			g.fillOval(x2 - 5, y - 5, 10, 10);
+			
+			drawVehicles(g, r, y);
 		}
-		
 	}
+	
 	@Override
 	public void onAdvanceStart(RoadMap map, List<Event> events, int time) {
 	}
