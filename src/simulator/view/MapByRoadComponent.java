@@ -24,6 +24,7 @@ import simulator.model.RoadMap;
 import simulator.model.TrafficSimObserver;
 import simulator.model.Vehicle;
 import simulator.model.VehicleStatus;
+import simulator.model.Weather;
 
 public class MapByRoadComponent extends JComponent implements TrafficSimObserver{
 
@@ -60,43 +61,75 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 		}
 	}
 	
-	private void drawMap(Graphics2D g) {
-		drawRoads(g);
-	}
-	private void drawVehicles(Graphics g, Road r, int y) {
-		for (Vehicle v: r.getVehicles()) {
+	private void drawVehicles(Graphics g, List<Vehicle> vehicles, int x1, int x2, int y) {
+		for (Vehicle v: vehicles) {
 			if (v.getStatus() != VehicleStatus.ARRIVED) {
-				int x1 = 50, x2 = getWidth() - 100;
-				int x = x1 + (int) ((x2 - x1) * ((double) v.getLocation() / (double) r.getLength()));
-				g.drawImage(_car, x, y - 8, 16, 16, this);
+				int x = x1 + (int) ((x2 - x1) * ((double) v.getLocation() / (double) v.getRoad().getLength()));
+				g.drawImage(_car, x, y, 16, 16, this);
+				g.setColor(Color.GREEN);
+				g.drawString(v.getId(), x + 2, y);
 			}
-			
 		}
 		
 	}
-	private void drawRoads(Graphics2D g) {
+	
+	private void drawWeatherImages(Graphics g, Weather w, int x, int y) {
+		String weatherImg = null;
+		switch (w) {
+		case CLOUDY:
+			weatherImg = "cloud.png";
+			break;
+		case RAINY:
+			weatherImg = "rain.png";
+			break;
+		case STORM:
+			weatherImg = "storm.png";
+			break;
+		case SUNNY:
+			weatherImg = "sun.png";
+			break;
+		case WINDY:
+			weatherImg = "wind.png";
+			break;
+		default:
+			break;
+		}
+		g.drawImage(loadImage(weatherImg), x, y, 32, 32, this);
+	}
+	
+	private void drawContaminationImages(Graphics g, int cont, int contLimit, int x, int y) {
+		int contLevel = (int) Math.floor(Math.min((double) cont/(1.0 + (double) contLimit),1.0) / 0.19);
+		
+		String contLevelImg = String.format("cont_%d.png", contLevel);
+		g.drawImage(loadImage(contLevelImg), x, y, 32, 32, this);
+	}
+	
+	private void drawMap(Graphics2D g) {
 		for (int i = 0; i < _map.getRoads().size(); i++) {
 			int x1 = 50, x2 = getWidth() - 100, y = (i + 1) * 50;
 			Road r = _map.getRoads().get(i);
 			
+			// Draw the road
 			g.setColor(Color.BLACK);
-			
 			g.drawLine(x1, y, x2, y);
 			g.drawString(r.getId(), x1 - 30, y + 4);
 			
+			// Draw the Junctions of the road
 			g.setColor(new Color(200, 100, 0));
 			g.drawString(r.getSrc().getId(), x1 - 4, y - 6);
-			
 			g.drawString(r.getDest().getId(), x2 - 4, y - 6);
-			
 			g.setColor(Color.BLUE);
 			g.fillOval(x1 - 5, y- 5, 10, 10);
-			
 			if (r.getDest().getGreen() == i) g.setColor(Color.GREEN);
 			else g.setColor(Color.RED);
 			g.fillOval(x2 - 5, y - 5, 10, 10);
 			
-			drawVehicles(g, r, y);
+			// Draw the vehicles of the road
+			drawVehicles(g, r.getVehicles(), x1, x2, y - 8);
+			// Draw the weather of the road
+			drawWeatherImages(g, r.getWeather(), x2 + 10, y - 17);
+			// Draw the contamination of the road
+			drawContaminationImages(g, r.getTotalCO2(), r.getContLimit(), x2 + 47, y - 17);
 		}
 	}
 	
