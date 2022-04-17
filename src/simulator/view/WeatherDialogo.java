@@ -19,8 +19,9 @@ import javax.swing.SpinnerNumberModel;
 
 import org.json.JSONObject;
 
+import simulator.misc.Pair;
 import simulator.model.Road;
-import simulator.model.Vehicle;
+import simulator.model.Weather;
 
 public class WeatherDialogo extends JDialog{
 
@@ -31,10 +32,15 @@ public class WeatherDialogo extends JDialog{
 	private DefaultComboBoxModel<String> _weatherModel;
 	private JSpinner spinner;
 	
+	private String roadId;
+	private Weather weather;
+	private int time;
+	
 
 	public WeatherDialogo(Frame parent) {
 		super(parent, true);
 		initGUI();
+		this._status = 1;
 	}
 
 	private void initGUI() {
@@ -104,6 +110,9 @@ public class WeatherDialogo extends JDialog{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				roadId = (String) _roadsModel.getSelectedItem();
+				weather = Weather.valueOf((String) _weatherModel.getSelectedItem());
+				time = (int) spinner.getValue();
 				setVisible(false);
 			}
 		});
@@ -122,11 +131,14 @@ public class WeatherDialogo extends JDialog{
 		for(Road r: rl) {
 			this._roadsModel.addElement(r.getId());
 		}
-		return 0;
+		return _status;
 	}
 
-	public JSONObject getWeather() {
-		// TODO Auto-generated method stub
-		return null;
+	public Pair<String, Weather> getSettedWeather() {
+		return new Pair<String, Weather>(roadId, weather);
+	}
+	
+	public int getTime(){
+		return this.time;
 	}
 }

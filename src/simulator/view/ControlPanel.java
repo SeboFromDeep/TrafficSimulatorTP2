@@ -33,7 +33,9 @@ import simulator.misc.Pair;
 import simulator.model.Event;
 import simulator.model.RoadMap;
 import simulator.model.SetContClassEvent;
+import simulator.model.SetWeatherEvent;
 import simulator.model.TrafficSimObserver;
+import simulator.model.Weather;
 
 public class ControlPanel extends JPanel implements TrafficSimObserver{
 	
@@ -222,11 +224,11 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 	private void changeCO2() {
 		co2dialog = new CO2Dialogo((Frame)SwingUtilities.getWindowAncestor(this));
 
-		int status = co2dialog.open(this.ctrl.getVehicleList());
+		int status = co2dialog.open(this.ctrl.getVehicles());
 
 		if (status == 1) {
 			try {
-				ArrayList<Pair<String, Integer>> cs = new ArrayList<Pair<String, Integer>>();
+				List<Pair<String, Integer>> cs = new ArrayList<Pair<String, Integer>>();
 				cs.add(co2dialog.getSettedContClass());
 				
 				int time = this.ctrl.getTime() + co2dialog.getTime();
@@ -244,11 +246,17 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 		
 		wdialog = new WeatherDialogo((Frame)SwingUtilities.getWindowAncestor(this));
 
-		int status = wdialog.open(this.ctrl.getRoadsList());
+		int status = wdialog.open(this.ctrl.getRoads());
 
 		if (status == 1) {
 			try {
-				this.ctrl.change(wdialog.getWeather());
+				List<Pair<String, Weather>> ws = new ArrayList<Pair<String,Weather>>();
+				ws.add(wdialog.getSettedWeather());
+				
+				int time = this.ctrl.getTime() + wdialog.getTime();
+				
+				SetWeatherEvent e = new SetWeatherEvent(time, ws);
+				this.ctrl.addEvent(e);
 			}
 			catch(Exception e) {
 				JOptionPane.showMessageDialog(null, "Error al cambiar el tiempo", "ERROR", JOptionPane.ERROR_MESSAGE);
