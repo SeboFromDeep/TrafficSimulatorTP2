@@ -200,7 +200,9 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 		fileChooser.showOpenDialog(fileChooser);
 		File f = fileChooser.getSelectedFile();
 		if(f != null) {
-			InputStream in = new FileInputStream(f) ;
+			InputStream in = new FileInputStream(f);
+			
+			ctrl.reset();
 			ctrl.loadEvents(in);
 			in.close();
 		}
