@@ -95,4 +95,8 @@ public class Controller {
 			this.trafficsimulator.addEvent(d);
 		}
 	}
+	public List<Road> getRoadsList() {
+		// TODO Auto-generated method stub
+		return trafficsimulator.getRoadsList();
+	}
 }

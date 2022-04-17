@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -15,6 +16,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+
+import org.json.JSONObject;
+
+import simulator.model.Road;
+import simulator.model.Vehicle;
 
 public class WeatherDialogo extends JDialog{
 
@@ -108,5 +114,19 @@ public class WeatherDialogo extends JDialog{
 		pack();
 		setResizable(false);
 		setVisible(true);
+	}
+
+	public int open(List<Road> rl) {
+		// TODO Auto-generated method stub
+		this._roadsModel.removeAllElements();
+		for(Road r: rl) {
+			this._roadsModel.addElement(r.getId());
+		}
+		return 0;
+	}
+
+	public JSONObject getWeather() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

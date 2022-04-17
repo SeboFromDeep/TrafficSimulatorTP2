@@ -43,7 +43,8 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 	private JButton loadButton;
 	private JButton offButton;
 	private boolean _stopped;
-	private CO2Dialogo dialog;
+	private CO2Dialogo co2dialog;
+	private WeatherDialogo wdialog;
 	private JSpinner spinner;
 
 	public ControlPanel(Controller _ctrl) {
@@ -94,7 +95,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				System.out.println("Weather");
+				changeWeather();
 			}
 		});
 		
@@ -217,35 +218,35 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 	}
 	
 	private void changeCO2() {
-		dialog = new CO2Dialogo((Frame)SwingUtilities.getWindowAncestor(this));
+		co2dialog = new CO2Dialogo((Frame)SwingUtilities.getWindowAncestor(this));
 
-		int status = dialog.open(this.ctrl.getVehicleList());
+		int status = co2dialog.open(this.ctrl.getVehicleList());
 
 		if (status == 1) {
 			try {
-				this.ctrl.change(dialog.getCO2());
+				this.ctrl.change(co2dialog.getCO2());
 			}
 			catch(Exception e) {
 				JOptionPane.showMessageDialog(null, "Error al cambiar el contclass", "ERROR", JOptionPane.ERROR_MESSAGE);
 			}
 		}
-		dialog = null;
+		co2dialog = null;
 	}
 	private void changeWeather() {
 		
-		if(dialog == null) {
-			dialog = new CO2Dialogo((Frame)SwingUtilities.getWindowAncestor(this));
+		wdialog = new WeatherDialogo((Frame)SwingUtilities.getWindowAncestor(this));
+
+		int status = wdialog.open(this.ctrl.getRoadsList());
+
+		if (status == 1) {
+			try {
+				this.ctrl.change(wdialog.getWeather());
+			}
+			catch(Exception e) {
+				JOptionPane.showMessageDialog(null, "Error al cambiar el tiempo", "ERROR", JOptionPane.ERROR_MESSAGE);
+			}
 		}
-		
-
-		//int status = dialog.open();
-
-		/*if (status == 0) {
-			System.out.println("Canceled");
-		} else {
-			System.out.println("Your favorite dish is: " + dialog.getDish());
-		}*/
-		dialog = null;
+		wdialog = null;
 	}
 	
 	private void run_sim(int n) {
