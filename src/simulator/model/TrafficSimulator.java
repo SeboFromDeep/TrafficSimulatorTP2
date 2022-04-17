@@ -27,7 +27,7 @@ public class TrafficSimulator implements Observable<TrafficSimObserver>{
 	}
 	
 	public void addEvent(Event e) {
-		events.add(e);
+		this.events.add(e);
 		notifyOnEventAdded(e);
 	}
 	
@@ -142,5 +142,10 @@ public class TrafficSimulator implements Observable<TrafficSimObserver>{
 
 	public List<Junction> getJunctions() {
 		return roadMap.getJunctions();
+	}
+
+	public List<Vehicle> getVehicleList() {
+		// TODO Auto-generated method stub
+		return this.roadMap.getVehicles();
 	}
 }

@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -16,7 +17,11 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import extra.dialog.Dish;
+import simulator.model.Vehicle;
 
 public class CO2Dialogo extends JDialog{
 
@@ -105,6 +110,32 @@ public class CO2Dialogo extends JDialog{
 		setLocation(450, 250);
 		pack();
 		setResizable(false);
-		setVisible(true);
+		setVisible(false);
 	}
+	
+	public int open(List<Vehicle> vl) {
+		this._vehiclesModel.removeAllElements();
+		for(Vehicle v:vl) {
+			this._vehiclesModel.addElement(v.getId());
+		}
+		setVisible(true);
+		return _status;
+	}
+
+	public JSONObject getCO2(){
+		JSONObject type = new JSONObject();
+		type.put("type", "set_cont_class");
+		//
+		JSONObject data = new JSONObject();
+		data.put("time", (int)spinner.getValue());
+		JSONArray ja = new JSONArray();
+		JSONObject js = new JSONObject();
+		js.put("vehicle", _vehiclesModel.getSelectedItem());
+		js.put("class", _CO2Model.getSelectedItem());
+		ja.put(js);
+		data.put("info", ja);
+		type.put("data", data);
+		return type; 
+	}
+
 }

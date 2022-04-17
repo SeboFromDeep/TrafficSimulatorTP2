@@ -217,13 +217,16 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 	private void changeCO2() {
 		dialog = new CO2Dialogo((Frame)SwingUtilities.getWindowAncestor(this));
 
-		//int status = dialog.open();
+		int status = dialog.open(this.ctrl.getVehicleList());
 
-		/*if (status == 0) {
-			System.out.println("Canceled");
-		} else {
-			System.out.println("Your favorite dish is: " + dialog.getDish());
-		}*/
+		if (status == 1) {
+			try {
+				this.ctrl.change(dialog.getCO2());
+			}
+			catch(Exception e) {
+				JOptionPane.showMessageDialog(null, "Error al cambiar el contclass", "ERROR", JOptionPane.ERROR_MESSAGE);
+			}
+		}
 		dialog = null;
 	}
 	private void changeWeather() {
