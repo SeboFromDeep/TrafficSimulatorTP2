@@ -29,8 +29,10 @@ import javax.swing.SwingUtilities;
 import org.json.JSONException;
 
 import simulator.control.Controller;
+import simulator.misc.Pair;
 import simulator.model.Event;
 import simulator.model.RoadMap;
+import simulator.model.SetContClassEvent;
 import simulator.model.TrafficSimObserver;
 
 public class ControlPanel extends JPanel implements TrafficSimObserver{
@@ -224,7 +226,13 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 
 		if (status == 1) {
 			try {
-				this.ctrl.change(co2dialog.getCO2());
+				ArrayList<Pair<String, Integer>> cs = new ArrayList<Pair<String, Integer>>();
+				cs.add(co2dialog.getSettedContClass());
+				
+				int time = this.ctrl.getTime() + co2dialog.getTime();
+				
+				SetContClassEvent e = new SetContClassEvent(time, cs);
+				this.ctrl.addEvent(e);
 			}
 			catch(Exception e) {
 				JOptionPane.showMessageDialog(null, "Error al cambiar el contclass", "ERROR", JOptionPane.ERROR_MESSAGE);

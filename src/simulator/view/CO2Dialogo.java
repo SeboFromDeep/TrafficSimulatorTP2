@@ -21,6 +21,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import extra.dialog.Dish;
+import simulator.misc.Pair;
 import simulator.model.Vehicle;
 
 public class CO2Dialogo extends JDialog{
@@ -32,10 +33,15 @@ public class CO2Dialogo extends JDialog{
 	private DefaultComboBoxModel<Integer> _CO2Model;
 	private JSpinner spinner;
 	
+	private String vehicleId;
+	private int contClass;
+	private int time;
+	
 
 	public CO2Dialogo(Frame parent) {
 		super(parent, true);
 		initGUI();
+		this._status = 1;
 	}
 
 	private void initGUI() {
@@ -101,6 +107,9 @@ public class CO2Dialogo extends JDialog{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				vehicleId = (String) _vehiclesModel.getSelectedItem();
+				contClass = (int) _CO2Model.getSelectedItem();
+				time = (int) spinner.getValue();
 				setVisible(false);
 			}
 		});
@@ -121,21 +130,14 @@ public class CO2Dialogo extends JDialog{
 		setVisible(true);
 		return _status;
 	}
-
-	public JSONObject getCO2(){
-		JSONObject type = new JSONObject();
-		type.put("type", "set_cont_class");
-		//
-		JSONObject data = new JSONObject();
-		data.put("time", (int)spinner.getValue());
-		JSONArray ja = new JSONArray();
-		JSONObject js = new JSONObject();
-		js.put("vehicle", _vehiclesModel.getSelectedItem());
-		js.put("class", _CO2Model.getSelectedItem());
-		ja.put(js);
-		data.put("info", ja);
-		type.put("data", data);
-		return type; 
+	
+	public Pair<String, Integer> getSettedContClass() {
+		return new Pair<String, Integer>(vehicleId, contClass);
 	}
+	
+	public int getTime(){
+		return this.time;
+	}
+	
 
 }

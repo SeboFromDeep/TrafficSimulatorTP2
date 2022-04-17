@@ -99,4 +99,7 @@ public class Controller {
 		// TODO Auto-generated method stub
 		return trafficsimulator.getRoadsList();
 	}
+	public int getTime() {
+		return trafficsimulator.getTime();
+	}
 }
