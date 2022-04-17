@@ -17,10 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 
-import extra.dialog.Dish;
 import simulator.misc.Pair;
 import simulator.model.Vehicle;
 

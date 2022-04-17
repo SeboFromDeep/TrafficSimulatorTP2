@@ -17,7 +17,6 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
-import org.json.JSONObject;
 
 import simulator.misc.Pair;
 import simulator.model.Road;
@@ -122,7 +121,7 @@ public class WeatherDialogo extends JDialog{
 		setLocation(450, 250);
 		pack();
 		setResizable(false);
-		setVisible(true);
+		setVisible(false);
 	}
 
 	public int open(List<Road> rl) {
@@ -131,6 +130,7 @@ public class WeatherDialogo extends JDialog{
 		for(Road r: rl) {
 			this._roadsModel.addElement(r.getId());
 		}
+		setVisible(true);
 		return _status;
 	}
 
