@@ -143,18 +143,8 @@ public class TrafficSimulator implements Observable<TrafficSimObserver>{
 	public List<Junction> getJunctions() {
 		return roadMap.getJunctions();
 	}
-
-	public List<Vehicle> getVehicleList() {
-		// TODO Auto-generated method stub
-		return this.roadMap.getVehicles();
-	}
 	
 	public int getTime() {
 		return this.time;
-	}
-
-	public List<Road> getRoadsList() {
-		// TODO Auto-generated method stub
-		return this.roadMap.getRoads();
 	}
 }

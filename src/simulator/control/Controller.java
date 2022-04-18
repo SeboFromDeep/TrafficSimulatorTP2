@@ -84,21 +84,7 @@ public class Controller {
 	public List<Junction> getJunctions() {
 		return trafficsimulator.getJunctions();
 	}
-	public List<Vehicle> getVehicleList() {
-		// TODO Auto-generated method stub
-		return trafficsimulator.getVehicleList();
-	}
-	public void change(JSONObject js) throws JSONException, Exception {
-		// TODO Auto-generated method stub
-		Event d = eventfactory.createInstance(js);
-		if(d != null) {
-			this.trafficsimulator.addEvent(d);
-		}
-	}
-	public List<Road> getRoadsList() {
-		// TODO Auto-generated method stub
-		return trafficsimulator.getRoadsList();
-	}
+	
 	public int getTime() {
 		return trafficsimulator.getTime();
 	}
