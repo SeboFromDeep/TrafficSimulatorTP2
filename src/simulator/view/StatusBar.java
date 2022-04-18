@@ -1,10 +1,14 @@
 package simulator.view;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.FlowLayout;
 import java.util.List;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 
 import simulator.control.Controller;
 import simulator.model.Event;
@@ -20,25 +24,29 @@ public class StatusBar extends JPanel implements TrafficSimObserver{
 	public StatusBar(Controller ctrl) {
 		super();
 		this.ctrl = ctrl;
+		this.ctrl.addObserver(this);
 		initGUI();
 		}
 
 	private void initGUI() {
 		// TODO Auto-generated method stub
+		this.setLayout(new FlowLayout(FlowLayout.LEFT));
+		
 		JLabel time = new JLabel("Time: ");
 		this.add(time);
 		
 		numTime = new JLabel("0");
 		this.add(numTime);
+		this.add(new JSeparator());
 		
-		lastEvent = new JLabel("2");
-		this.add(lastEvent);
+		lastEvent = new JLabel("");
+		this.add(lastEvent, BorderLayout.WEST);
 	}
 
 	@Override
 	public void onAdvanceStart(RoadMap map, List<Event> events, int time) {
-		// TODO Auto-generated method stub
-		
+		numTime.setText(Integer.toString(time));
+		lastEvent.setText("");
 	}
 
 	@Override
@@ -49,8 +57,7 @@ public class StatusBar extends JPanel implements TrafficSimObserver{
 
 	@Override
 	public void onEventAdded(RoadMap map, List<Event> events, Event e, int time) {
-		// TODO Auto-generated method stub
-		
+		lastEvent.setText("Event added (" + e.toString() + ")");
 	}
 
 	@Override
@@ -67,8 +74,9 @@ public class StatusBar extends JPanel implements TrafficSimObserver{
 
 	@Override
 	public void onError(String err) {
-		// TODO Auto-generated method stub
-		
+		lastEvent.setForeground(Color.RED);
+		lastEvent.setText(err.toString());
+		lastEvent.setForeground(Color.BLACK);
 	}
 
 }
