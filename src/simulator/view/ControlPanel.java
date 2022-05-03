@@ -15,8 +15,10 @@ import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -50,6 +52,8 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 	private CO2Dialogo co2dialog;
 	private WeatherDialogo wdialog;
 	private JSpinner spinner;
+	private JComboBox<String> combo;
+	private DefaultComboBoxModel<String> comboModel;
 
 	public ControlPanel(Controller _ctrl) {
 		// TODO Auto-generated constructor stub
@@ -127,6 +131,12 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 		JLabel ticksLabel = new JLabel("Ticks: ");
 		spinner = new JSpinner(new SpinnerNumberModel(10, 1, 10000, 1));
 		
+		JLabel simulationMode = new JLabel("Simulation mode: ");
+		comboModel = new DefaultComboBoxModel<>();
+		comboModel.addElement("Threat");
+		comboModel.addElement("Normal");
+		combo = new JComboBox<>(comboModel);
+	
 		
 		offButton = new JButton(new ImageIcon("resources/icons/exit.png"));
 		offButton.setToolTipText("Close the simulation");
@@ -147,6 +157,9 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 		barra.add(stopButton);
 		barra.add(ticksLabel);
 		barra.add(spinner);
+		barra.addSeparator();
+		barra.add(simulationMode);
+		barra.add(combo);
 		barra.add(Box.createHorizontalGlue());
 		barra.addSeparator();
 		barra.add(offButton);
