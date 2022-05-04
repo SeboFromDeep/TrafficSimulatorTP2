@@ -27,6 +27,8 @@ import javax.swing.JSpinner;
 import javax.swing.JToolBar;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.json.JSONException;
 
@@ -216,6 +218,11 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 	
 	private void load() throws JSONException, Exception {
 		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setCurrentDirectory(new File("./resources/examples"));
+		
+		FileNameExtensionFilter jsonFilter = new FileNameExtensionFilter(".JSON", "json");
+		fileChooser.setFileFilter(jsonFilter);
+		
 		fileChooser.showOpenDialog(fileChooser);
 		File f = fileChooser.getSelectedFile();
 		if(f != null) {
