@@ -88,4 +88,8 @@ public class Controller {
 	public int getTime() {
 		return trafficsimulator.getTime();
 	}
+	
+	public TrafficSimulator getTrafficSimulator() {
+		return this.trafficsimulator;
+	}
 }

@@ -36,6 +36,7 @@ import simulator.model.Event;
 import simulator.model.RoadMap;
 import simulator.model.SetContClassEvent;
 import simulator.model.SetWeatherEvent;
+import simulator.model.ThreadSimulatorRunner;
 import simulator.model.TrafficSimObserver;
 import simulator.model.Weather;
 
@@ -133,8 +134,8 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 		
 		JLabel simulationMode = new JLabel("Simulation mode: ");
 		comboModel = new DefaultComboBoxModel<>();
-		comboModel.addElement("Threat");
-		comboModel.addElement("Normal");
+		comboModel.addElement("Tick Simulation");
+		comboModel.addElement("Complete Simulation with Threads");
 		combo = new JComboBox<>(comboModel);
 	
 		
@@ -301,11 +302,29 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 	}
 	
 	public void play() {
-		int ticks = (int) this.spinner.getValue();
-		System.out.println(String.format("Running %d ticks", ticks));
-		enableButtons(false);
-		_stopped = false;
-		run_sim(ticks);
+		switch ((String) this.comboModel.getSelectedItem()) {
+		case "Tick Simulation":
+			int ticks = (int) this.spinner.getValue();
+			System.out.println(String.format("Running %d ticks", ticks));
+			enableButtons(false);
+			_stopped = false;
+			run_sim(ticks);
+			break;
+		case "Complete Simulation with Threads":
+			ThreadSimulatorRunner simulatorRunner = new ThreadSimulatorRunner(ctrl.getTrafficSimulator());
+			System.out.println("Completing the simulation...");
+			enableButtons(false);
+			simulatorRunner.start();
+			try {
+				simulatorRunner.join();
+			} catch (InterruptedException e) {
+				System.out.println(e.getMessage());
+			}
+			enableButtons(true);
+			break;
+		default:
+			break;
+		}
 	}
 	
 	private void stop() {

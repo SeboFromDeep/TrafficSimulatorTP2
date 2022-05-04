@@ -2,6 +2,7 @@ package simulator.view;
 
 import java.util.List;
 
+import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
 
 import extra.jtable.EventEx;
@@ -10,7 +11,7 @@ import simulator.model.Event;
 import simulator.model.RoadMap;
 import simulator.model.TrafficSimObserver;
 
-public class EventsTableModel extends AbstractTableModel implements TrafficSimObserver{
+public class EventsTableModel extends AbstractTableModel implements TrafficSimObserver, Runnable{
 
 	
 	private List<Event> _events;
@@ -98,6 +99,12 @@ public class EventsTableModel extends AbstractTableModel implements TrafficSimOb
 
 	@Override
 	public void onError(String err) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void run() {
 		// TODO Auto-generated method stub
 		
 	}
