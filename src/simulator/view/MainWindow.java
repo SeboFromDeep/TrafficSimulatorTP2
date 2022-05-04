@@ -15,7 +15,6 @@ import javax.swing.JTable;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
-import simulator.view.EventsTableModel;
 import simulator.control.Controller;
 
 public class MainWindow extends JFrame {

@@ -34,7 +34,6 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 	private RoadMap _map;
 	
 	public MapByRoadComponent(Controller c) {
-		setPreferredSize(new Dimension(300, 200));
 		initGUI();
 		c.addObserver(this);
 	}
@@ -149,6 +148,8 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 
 	@Override
 	public void onReset(RoadMap map, List<Event> events, int time) {
+		setPreferredSize(new Dimension(1, 1));
+		setSize(new Dimension(487, 374));	// estos datos los saqué debuggeando y mirando los datos anteriores al reset
 		update(map);
 	}
 
@@ -171,15 +172,13 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 	}
 	
 	private void updatePrefferedSize() {
-		int maxW = 200;
 		int maxH = 200;
-		for (Junction j : _map.getJunctions()) {
-			maxW = Math.max(maxW, j.getX());
-			maxH = Math.max(maxH, j.getY());
+		int maxW = 200;
+		if (_map.getRoads().size() > 7) {
+			maxH = Math.max(maxH, maxH + (_map.getRoads().size()) - 7)*3;
 		}
-		maxW += 20;
 		maxH += 20;
-		if (maxW > getWidth() || maxH > getHeight()) {
+		if (maxH > getHeight()) {
 			setPreferredSize(new Dimension(maxW, maxH));
 			setSize(new Dimension(maxW, maxH));
 		}
