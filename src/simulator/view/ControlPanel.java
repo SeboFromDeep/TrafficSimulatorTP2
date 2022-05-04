@@ -57,6 +57,8 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 	private JSpinner spinner;
 	private JComboBox<String> combo;
 	private DefaultComboBoxModel<String> comboModel;
+	
+	private volatile Thread _thread;
 
 	public ControlPanel(Controller _ctrl) {
 		// TODO Auto-generated constructor stub
@@ -318,15 +320,17 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 			run_sim(ticks);
 			break;
 		case "Complete Simulation with Threads":
-			ThreadSimulatorRunner simulatorRunner = new ThreadSimulatorRunner(ctrl.getTrafficSimulator());
+			_thread = new ThreadSimulatorRunner(ctrl.getTrafficSimulator());
 			System.out.println("Completing the simulation...");
 			enableButtons(false);
-			simulatorRunner.start();
+			stopButton.setEnabled(false);
+			_thread.start();
 			try {
-				simulatorRunner.join();
+				_thread.join();
 			} catch (InterruptedException e) {
 				System.out.println(e.getMessage());
 			}
+			System.out.println("Simulation completed.");
 			enableButtons(true);
 			break;
 		default:

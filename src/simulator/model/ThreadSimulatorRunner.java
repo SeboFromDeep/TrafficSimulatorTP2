@@ -1,8 +1,9 @@
 package simulator.model;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+
+import javax.swing.SwingUtilities;
 
 public class ThreadSimulatorRunner extends Thread {
 	private TrafficSimulator trafiSimulator;
@@ -15,9 +16,11 @@ public class ThreadSimulatorRunner extends Thread {
 	}
 	
 	public void run() {
-		while (!allArrived()) {
+		if (!allArrived()) {
 			trafiSimulator.advance();
 			updateArrivedList();
+			
+			SwingUtilities.invokeLater(this);
 		}
 	}
 	
