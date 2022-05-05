@@ -5,23 +5,32 @@ import java.util.List;
 
 import javax.swing.SwingUtilities;
 
+import simulator.view.ControlPanel;
+
 public class ThreadSimulatorRunner extends Thread {
 	private TrafficSimulator trafiSimulator;
+	private ControlPanel controlPanel;
 	private List<Boolean> arrived; //lista de booleanos que contiene si un vehiculo ha terminado su recorrido
 	
-	public ThreadSimulatorRunner(TrafficSimulator t) {
+	public ThreadSimulatorRunner(TrafficSimulator t, ControlPanel cp) {
 		this.trafiSimulator = t;
+		this.controlPanel = cp;
 		this.arrived = new LinkedList<>(); 
 		setArrivedList();
 	}
 	
 	public void run() {
-		if (!allArrived()) {
+		if (trafiSimulator.getTime() == 0) {
+			trafiSimulator.advance();
+			setArrivedList();
+		}
+		if (!trafiSimulator.getVehicles().isEmpty() && !allArrived()) {
 			trafiSimulator.advance();
 			updateArrivedList();
 			
 			SwingUtilities.invokeLater(this);
 		}
+		else controlPanel.enableButtonsAfterThread();
 	}
 	
 	private void setArrivedList() {

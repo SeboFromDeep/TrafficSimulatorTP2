@@ -1,14 +1,11 @@
 package simulator.view;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +24,6 @@ import javax.swing.JSpinner;
 import javax.swing.JToolBar;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
-import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.json.JSONException;
@@ -218,6 +214,10 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 		offButton.setEnabled(b);
 	}
 	
+	public void enableButtonsAfterThread() {
+		enableButtons(true);
+	}
+	
 	private void load() throws JSONException, Exception {
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setCurrentDirectory(new File("./resources/examples"));
@@ -320,7 +320,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 			run_sim(ticks);
 			break;
 		case "Complete Simulation with Threads":
-			_thread = new ThreadSimulatorRunner(ctrl.getTrafficSimulator());
+			_thread = new ThreadSimulatorRunner(ctrl.getTrafficSimulator(), this);
 			System.out.println("Completing the simulation...");
 			enableButtons(false);
 			stopButton.setEnabled(false);
@@ -329,9 +329,8 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 				_thread.join();
 			} catch (InterruptedException e) {
 				System.out.println(e.getMessage());
-			}
+			}	
 			System.out.println("Simulation completed.");
-			enableButtons(true);
 			break;
 		default:
 			break;
@@ -343,5 +342,4 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 		enableButtons(true);
 		System.out.println("Simulation stopped");
 	}
-
 }
