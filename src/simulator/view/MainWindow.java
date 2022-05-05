@@ -4,11 +4,14 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -83,9 +86,38 @@ public class MainWindow extends JFrame {
 				TitledBorder.TOP));
 		mapsPanel.add(map);
 		
-		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		this.addWindowListener(new WindowListener() {
+			
+			@Override
+			public void windowOpened(WindowEvent e) {}
+			
+			@Override
+			public void windowIconified(WindowEvent e) {}
+			
+			@Override
+			public void windowDeiconified(WindowEvent e) {}
+			
+			@Override
+			public void windowDeactivated(WindowEvent e) {}
+			
+			@Override
+			public void windowClosing(WindowEvent e) {int n = JOptionPane.showConfirmDialog(null,"Are you sure you want to go out?", "EXIT", JOptionPane.YES_NO_OPTION);
+			if(n == 0) {
+				System.exit(0);
+			};}
+			
+			@Override
+			public void windowClosed(WindowEvent e) {}
+
+			@Override
+			public void windowActivated(WindowEvent e) {}
+		});
 		this.pack();
 		this.setVisible(true);
+		this.setLocationRelativeTo(null);
+	
+
 	}
 	private JPanel createViewPanel(JComponent c, String title) {
 	JPanel p = new JPanel( new BorderLayout() );
