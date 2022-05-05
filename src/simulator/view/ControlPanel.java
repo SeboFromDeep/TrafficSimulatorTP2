@@ -43,6 +43,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 	private Controller ctrl;
 	private JButton playButton;
 	private JButton stopButton;
+	private JButton resetButton;
 	private JButton CO2Button;
 	private JButton weatherButton;
 	private JButton loadButton;
@@ -53,6 +54,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 	private JSpinner spinner;
 	private JComboBox<String> combo;
 	private DefaultComboBoxModel<String> comboModel;
+	private File file;
 	
 	private volatile Thread _thread;
 
@@ -61,6 +63,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 		this.ctrl = _ctrl;
 		initGUI();
 		ctrl.addObserver(this);
+		this.file = null;
 	}
 	
 	private void initGUI() {
@@ -118,6 +121,17 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 			}
 		});
 		
+		resetButton = new JButton(new ImageIcon("resources/icons/reset.png"));
+		resetButton.setToolTipText("Reset the simulation");
+		resetButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				reset();
+				
+			}
+		});
+		
 		stopButton = new JButton(new ImageIcon("resources/icons/stop.png"));
 		stopButton.setToolTipText("Pause the simulation");
 		stopButton.setEnabled(false);
@@ -155,6 +169,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 		barra.add(weatherButton);
 		barra.addSeparator();
 		barra.add(playButton);
+		barra.add(resetButton);
 		barra.add(stopButton);
 		barra.add(ticksLabel);
 		barra.add(spinner);
@@ -226,9 +241,9 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 		fileChooser.setFileFilter(jsonFilter);
 		
 		fileChooser.showOpenDialog(fileChooser);
-		File f = fileChooser.getSelectedFile();
-		if(f != null) {
-			InputStream in = new FileInputStream(f);
+		file = fileChooser.getSelectedFile();
+		if(file != null) {
+			InputStream in = new FileInputStream(file);
 			
 			ctrl.reset();
 			ctrl.loadEvents(in);
@@ -341,5 +356,22 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 		_stopped = true;
 		enableButtons(true);
 		System.out.println("Simulation stopped");
+	}
+	
+	private void reset() {
+		if (file != null) {
+			ctrl.reset();
+			try {
+				InputStream in = new FileInputStream(file);
+				
+				ctrl.reset();
+				ctrl.loadEvents(in);
+				in.close();
+			} catch (Exception e) {
+				// TODO: handle exception
+				System.out.println(e.getMessage()); 
+			}
+			System.out.println("Simulation reseted.");
+		}
 	}
 }
